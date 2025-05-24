@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>EXCHME - Currency Exchange</title>
+  <script defer="" src="/js/app.js"></script>
+  <link href="/styles/app.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- preloader start -->
+  <%- include('./partials/preloader') %>;
+
+    <!-- preloader end -->
+
+    <!-- scroll to top button start -->
+    <div class="scroll-to-top show" id="scrollToTop">
+      <i class="ph ph-arrow-fat-lines-up"></i>
+    </div>
+    <!-- scroll to top button end -->
+
+    <!-- header start -->
+    <%- include('./partials/header') %>;
+
+
+
+
+      <!-- header end -->
+
+      <!-- main start -->
+      <main class="min-h-screen">
+
+        <!-- FAQs Beadcrumb start -->
+        <section class="section-pt bg-[url('../images/photos/beadcrumbBG.png')] bg-no-repeat bg-cover">
+          <div class="container">
+            <div class="grid md:grid-cols-2 grid-cols-1 justify-between gap-24p">
+              <div class="pt-60p">
+                <h2 class="text-40 text-white mb-32p text-split-left">Faqs</h2>
+                <ul class="flex-y *:flex-y flex-wrap gap-1 text-base text-white mb-60p *:transition-1">
+                  <li class="hover:text-warning">
+                    <a href="./index">Home</a>
+                  </li>
+                  <li>
+                    <i class="ph ph-caret-right"></i>
+                  </li>
+                  <li class="hover:text-warning">
+                    <a href="#">More</a>
+                  </li>
+                  <li>
+                    <i class="ph ph-caret-right"></i>
+                  </li>
+                  <li class="text-warning">
+                    <span>FAQs</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="flex md:justify-end">
+                <img class="w- animate-bounce-slow-left" src="images/photos/beadcrumbBanner2.png" alt="beadcrumb">
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- FAQs Beadcrumb end -->
+
+        <!-- faqs section start -->
+        <section class="section-py">
+          <div class="container">
+            <div class="flex-col-c text-center mb-60p" data-aos="fade-up">
+              <div class="max-w-[708px]">
+                <h1 class="text-40 text-white mb-24p text-split-left">
+                  Find Answers to Your Questions
+                </h1>
+                <p class="text-20 text-white">
+                  Welcome to our FAQs section! Here, we've compiled answers to some of the most common
+                  questions our users ask.
+                </p>
+              </div>
+            </div>
+
+            <div x-data="{ activeTab: 'general'}">
+              <div class="flex-c">
+                <div
+                  class="xsm:rounded-full rounded-xl bg-BG-100 border border-glass-3 sm:p-3 p-2 flex-y sm:gap-3 gap-2 overflow-x-auto scrollbar-0 mb-24p">
+                  <button @click=" activeTab = 'general'"
+                    :class="activeTab === 'general' ? 'bg-primary border-primary' : 'text-white border-glass-3 bg-BG-200'"
+                    class="btn-sm border">
+                    <i class="ph ph-squares-four icon-20"></i>
+                    General
+                  </button>
+                </div>
+              </div>
+              <div x-data="dataList" class="mt-40p">
+                <!-- general tab start -->
+                <div x-show="activeTab === 'general'" x-data="{ activeId: null }"
+                  class="flex justify-between items-start lg:flex-row flex-col gap-24p">
+
+                  <!-- First 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'general').slice(0, Math.ceil(faqs.filter((item) => item.category === 'general').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- Second 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'general').slice(Math.ceil(faqs.filter((item) => item.category === 'general').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <!-- general tab end -->
+
+                <!-- account tab start -->
+                <div x-show="activeTab === 'account'" x-data="{ activeId: null }"
+                  class="flex justify-between items-start lg:flex-row flex-col gap-24p">
+
+                  <!-- First 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'account').slice(0, Math.ceil(faqs.filter((item) => item.category === 'account').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- Second 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'account').slice(Math.ceil(faqs.filter((item) => item.category === 'account').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <!-- account tab end -->
+
+                <!-- transactions tab start -->
+                <div x-show="activeTab === 'transactions'" x-data="{ activeId: null }"
+                  class="flex justify-between items-start lg:flex-row flex-col gap-24p">
+
+                  <!-- First 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'transactions').slice(0, Math.ceil(faqs.filter((item) => item.category === 'transactions').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- Second 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'transactions').slice(Math.ceil(faqs.filter((item) => item.category === 'transactions').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <!-- transactions tab end -->
+
+                <!-- privacy tab start -->
+                <div x-show="activeTab === 'privacy'" x-data="{ activeId: null }"
+                  class="flex justify-between items-start lg:flex-row flex-col gap-24p">
+
+                  <!-- First 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'privacy').slice(0, Math.ceil(faqs.filter((item) => item.category === 'privacy').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+
+                  <!-- Second 50% of FAQs -->
+                  <div class="grid grid-cols-1 gap-24p lg:w-1/2 w-full">
+                    <template
+                      x-for="(item, idx) in faqs.filter((item) => item.category === 'privacy').slice(Math.ceil(faqs.filter((item) => item.category === 'privacy').length / 2))"
+                      :key="idx">
+                      <div>
+                        <button @click="activeId = (activeId === item.id ? null : item.id)"
+                          :class="activeId === item.id ? 'bg-primary border-primary' : 'bg-BG-100 border-glass-3'"
+                          class="py-16p px-32p rounded-2xl flex items-center justify-between gap-2.5 w-full">
+                          <span x-text="item.question" :class="activeId === item.id ? 'text-n-800' : 'text-white'"
+                            class="text-18 text-left font-medium"></span>
+                          <span :class="activeId === item.id ? 'bg-n-800 text-primary' : 'bg-primary text-n-800'"
+                            class="shrink-0 btn-sm-c">
+                            <i :class="activeId === item.id ? 'ph-minus rotate-180' : 'ph-plus'" class="ph"></i>
+                          </span>
+                        </button>
+                        <div x-show="activeId === item.id" x-collapse="">
+                          <p x-text="item.answer" class="text-base text-left text-white py-20p px-32p"></p>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+                <!-- privacy tab end -->
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+        <!-- faqs section end -->
+      </main>
+      <!-- main end -->
+
+      <!-- footer one start -->
+      <%- include('./partials/footer') %>;
+
+        <!-- footer one end -->
+
+
+
+
+</body>
+
+</html>

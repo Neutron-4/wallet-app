@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <style>
+        /* Styles for the Popup Modal */
+        .popup-content {
+            display: none;
+            /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            /* Ensures the popup is on top */
+        }
+
+        .popup-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            position: relative;
+        }
+
+        .close-btn {
+            color: red;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .create-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .create-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <a href="/admin/dashboard">
+                <h1>EXCHME Website</h1>
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+                <li><a href="/admin/users">Users</a></li>
+                <li><a href="/admin/transactions">Transactions</a></li>
+                <li><a href="/admin/orders">Orders</a></li>
+                <li><a href="/admin/currencyrate">Currency Rate</a></li>
+                <li><a href="/admin/posts">Posts</a></li>
+                <li><a href="/admin/offers">Offers</a></li>
+                <li><a href="/admin/refferal-details">Referral Commisions</a></li>
+                <li><a href="/admin/setting">Setting</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2>Settings</h2>
+
+        <div class="container">
+            <% if (settings.length> 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% settings.forEach(elem=> { %>
+                            <tr>
+                                <td>
+                                    <%= elem.key %>
+                                </td>
+                                <td>
+                                    <%= elem.value %>
+                                </td>
+                                <td><button onclick="editSetting('<%= elem.key %>', '<%= elem.value %>')">Edit</button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                    <p>There are no settings options available.</p>
+                    <% } %>
+        </div>
+    </div>
+
+    <!-- Popup Form -->
+    <div class="popup-content" id="popupForm">
+        <div class="popup-form">
+            <button class="close-btn" onclick="closePopup()">&times;</button>
+            <h3>Edit Setting</h3>
+            <form action="/admin/update-setting" method="post" id="updateSettingForm">
+                <label for="key">Key</label>
+                <input type="text" id="key" name="key" required readonly><br><br>
+                <label for="value">Value</label>
+                <input type="text" id="value" name="value" required><br><br>
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Open the popup to create a new setting
+        function openPopup() {
+            document.getElementById("popupForm").style.display = "flex";
+        }
+
+        // Close the popup
+        function closePopup() {
+            document.getElementById("popupForm").style.display = "none";
+        }
+
+        // Open the popup to edit an existing setting
+        function editSetting(key, value) {
+            document.getElementById("key").value = key;
+            document.getElementById("value").value = value;
+            openPopup();
+        }
+
+        // Listen for Escape key to close the popup
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closePopup();
+        });
+    </script>
+
+</body>
+
+</html>

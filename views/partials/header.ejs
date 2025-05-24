@@ -1,0 +1,281 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
+<header id="header" class="absolute w-full z-[999]">
+    <div class="mx-auto relative">
+      <div id="header-nav"
+        class="w-full xxl:px-[60px] xl:px-10 lg:px-8 md:px-7 sm:px-6 px-4 border-b border-white/10 relative">
+        <div class="flex items-center justify-between gap-x-2 mx-auto py-24p">
+          <nav class="relative w-full flex justify-between items-center gap-24p text-semibold">
+            <div class="flex items-center xxl:gap-x-40p gap-x-20p">
+              <a href="../">
+                <img style="width: 80%; height: 80%; border-radius: 50%;" src="/images/icons/logo.png" alt="brand">
+              </a>
+              <!-- Mega Menu Start -->
+              <div x-data="{ open: false }" class="group">
+                <button @click="window.location.href = '/deposit'; open = !open"
+                  class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
+                  <span class="flex justify-center items-center icon-24">
+                    <i class="ph ph-squares-four"></i>
+                  </span>
+                  Deposit
+                </button>
+              </div>
+              <div x-data="{ open: false }" class="group">
+                <button @click="window.location.href = '/withdraw'; open = !open"
+                  class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
+                  <span class="flex justify-center items-center icon-24">
+                    <i class="ph ph-squares-four"></i>
+                  </span>
+                  Withdraw
+                </button>
+              </div>
+              <div x-data="{ open: false }" class="group">
+                <button @click="window.location.href = '/daily-income'; open = !open"
+                  class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
+                  <span class="flex justify-center items-center icon-24">
+                    <i class="ph ph-squares-four"></i>
+                  </span>
+                  Daily Income
+                </button>
+              </div>
+              <!-- Mega Menu End -->
+              <!-- <div class="xxl:block hidden">
+                <ul class="menus">
+                  <li class="submenu group">
+                    <span class="submenu-btn">More</span>
+                    <span class="submenu-icon">
+                      <i class="ph ph-caret-down"></i>
+                    </span>
+                    <ul class="submenu-options group">
+                      <li class="submenu-link">
+                        <a href="../faqs">Faqs</a>
+                      </li>
+                      <li class="submenu-link">
+                        <a href="../contact-us">Contact Us</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div> -->
+            </div>
+            <div class="flex items-center xxl:gap-24p gap-20p relative">
+              <!-- Balance Button (only shown if user is logged in) -->
+              <% if (locals.userEmail) { %>
+                <div x-data="{ open: false }" class="relative">
+                  <button @click="open = !open" class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
+                    <span>Your Balance: <strong>
+                      <%= locals.balance !== null ? locals.balance.toFixed(2) : 'N/A' %>
+                    </strong></span>
+                  </button>
+                  
+                  <!-- Dropdown Content -->
+                  <div x-show="open" @click.away="open = false"
+                    class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 py-2 text-black">
+                    <div class="px-4 py-2 text-sm text-gray-800 text-black">
+                      <strong>Balance: </strong>
+                      <%= locals.balance !==null ? locals.balance.toFixed(2) : '0' %> <br>
+                      <strong>BTC: </strong>
+                      <%= locals.btcBalance !==null ? locals.btcBalance.toFixed(8) : '0' %> <br>
+                      <strong>USDT: </strong>
+                      <%= locals.usdtBalance !==null ? locals.usdtBalance.toFixed(4) : '0' %>
+                      
+                    </div>
+                    <hr class="border-gray-200">
+                    <a href="/myinvestments" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                      My Investments
+                    </a>
+                    <a href="/mytransactions" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                      My Transactions
+                    </a>
+                    <a href="/change-password" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                      Change Password
+                    </a>
+                    <a href="/logout" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                      Logout
+                    </a>
+                  </div>
+                </div>
+                <% } %>
+
+                  <!-- Conditional User Dropdown for Desktop -->
+                  <% if (locals.userEmail) { %>
+                    <div x-data="{ open: false }" class="relative">
+                      <button @click="open = !open"
+                        class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
+                        <% if (locals.userName) { %>
+                          <span><%=locals.userName%></span>
+                        <% } else {%>
+                        <span><%=locals.userName%></span>
+                        <% }%>
+
+                        <i class="ph ph-caret-down"></i>
+                      </button>
+                      <!-- Dropdown Content -->
+                      <div x-show="open" @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 py-2 text-black">
+                        <div class="px-4 py-2 text-sm text-gray-800">
+                          <strong>Email:</strong>
+                          <%= locals.userEmail %>
+                          
+                        </div>
+                        <hr class="border-gray-200">
+                        <a href="/myinvestment" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                          My Investments
+                        </a>
+                        <a href="/mytransactions" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                          My Transactions
+                        </a>
+                        <a href="/change-password" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                          Change Password
+                        </a>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
+                          Logout
+                        </a>
+                      </div>
+                    </div>
+                    <% } %>
+
+                      <!-- Conditional Buttons -->
+                      <% if (!locals.userEmail || !userEmail) { %>
+                        <a href="/sign-in" class="btn-lg btn-primary shrink-0">
+                          Sign In
+                          <i class="ph ph-arrow-right icon-20"></i>
+                        </a>
+                        <a href="/sign-up" class="btn-lg btn-primary shrink-0">
+                          Sign Up
+                          <i class="ph ph-arrow-right icon-20"></i>
+                        </a>
+                        <% } %>
+
+                          <div x-data="{ isNavOpen: false }" class="relative">
+                            <!-- Mobile Navigation Toggle -->
+                            <button @click="isNavOpen = true"
+                              class="nav-toggle cursor-pointer text-3xl text-white hover:text-primary transition-1 xxl:hidden block">
+                              <i class="ph ph-list"></i>
+                            </button>
+
+                            <!-- Mobile Navigation -->
+                            <div x-show="isNavOpen" x-transition:enter="transition-transform duration-300 ease-out"
+                              x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+                              x-transition:leave="transition-transform duration-300 ease-in"
+                              x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full"
+                              class="small-nav fixed top-0 left-0 h-screen w-full shadow-lg z-[999] bg-BG-200 sm:p-12 p-8 flex flex-col justify-start items-start">
+                              <div class="relative flex justify-between items-center mb-80p">
+                                <a href="../">
+                                  <img style="width: 80%; height: 80%; border-radius: 50%;" src="/images/icons/logo.png"
+                                    alt="brand">
+                                </a>
+                                <button @click="isNavOpen = false"
+                                  class="nav-close text-xl cursor-pointer text-white hover:text-primary">
+                                  <i class="ph ph-x"></i>
+                                </button>
+                              </div>
+                              <ul class="flex flex-col justify-center items-start gap-5 text-white">
+                                <li class="mobail-menu">
+                                  <a href="/">Home</a>
+                                </li>
+                                <li class="mobail-menu">
+                                  <a href="/deposit">Deposit</a>
+                                </li>
+                                <li class="mobail-menu">
+                                  <a href="/withdraw">Withdraw</a>
+                                </li>
+                                <li class="mobail-menu">
+                                  <a href="/daily-income">Daily Income</a>
+                                </li>
+                                <!-- Conditional User Sub-menu for Mobile -->
+                                <% if (locals.userEmail) { %>
+                                  <li class="sub-menu mobail-submenu">
+                                    <span class="mobail-submenu-btn">
+                                      <span class="text-xl submenu-btn"><%= locals.userName ? locals.userName : 'User' %>
+                                      </span>
+                                      <span class="collapse-icon mobail-submenu-icon">
+                                        <i class="ph ph-caret-down"></i>
+                                      </span>
+                                    </span>
+                                    <ul class="grid gap-y-2 px-16p">
+                                      <div class="px-4 py-2 text-sm text-gray-800">
+                                        <div>
+                                          <strong>Email:</strong>
+                                          <%= locals.userEmail %>
+                                        </div>
+                                        <% if (locals.balance !==null) { %>
+                                          <div>
+                                            <strong>Your Balance:</strong>
+                                            <%= locals.balance.toFixed(2) %>
+                                          </div>
+                                          <% } %>
+                                          <% if (locals.btcBalance !==null) { %>
+                                            <div>
+                                              <strong>BTC Balance:</strong>
+                                              <%= locals.btcBalance.toFixed(8) %>
+                                            </div>
+                                            <% } %>
+                                            <% if (locals.usdtBalance !==null) { %>
+                                              <div>
+                                                <strong>USDT Balance:</strong>
+                                                <%= locals.usdtBalance.toFixed(4) %>
+                                              </div>
+                                              <% } %>
+                                      </div>
+                                      <li>
+                                        
+                                        <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                          href="/myinvestment">
+                                          - My Investments
+                                        </a>
+                                      </li>
+                                      <li>
+                                        
+                                        <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                          href="/mytransactions">
+                                          - My Transaction
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                          href="/change-password">
+                                          - Change Password
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                          href="/logout">
+                                          - Logout
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  </li>
+                                  <% } %>
+                                    <!-- More Menu with FAQ and Contact Us -->
+                                    <li class="sub-menu mobail-submenu">
+                                      <span class="mobail-submenu-btn">
+                                        <span class="text-xl submenu-btn">More</span>
+                                        <span class="collapse-icon mobail-submenu-icon">
+                                          <i class="ph ph-caret-down"></i>
+                                        </span>
+                                      </span>
+                                      <ul class="grid gap-y-2 px-16p">
+                                        <li>
+                                          <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                            href="../faqs">
+                                            - FAQ
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a aria-label="item" class="text-18 hover:text-primary transition-1"
+                                            href="../contact-us">
+                                            - Contact Us
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </li>
+                              </ul>
+                            </div>
+                          </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>

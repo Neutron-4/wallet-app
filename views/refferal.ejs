@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+    <title>Referral Program</title>
+    <script defer="" src="/js/app.js"></script>
+    <link href="/styles/app.css" rel="stylesheet">
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1B072C, #1B072C);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .referral-container {
+            text-align: center;
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 16px;
+            margin: auto;
+            margin-top: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 48px;
+            color: #ffbb33;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .level-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .level-card {
+            background-color: rgba(30, 30, 30, 0.8);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .level-card h3 {
+            font-size: 28px;
+            color: #ffbb33;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .level-card p {
+            font-size: 16px;
+            color: #ddd;
+        }
+
+        .referral-card {
+            width: 100%;
+            background-color: rgba(30, 30, 30, 0.85);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .referral-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .referral-avatar {
+            width: auto;
+            height: 150px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .referral-count {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        .referral-progress-bar {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background-color: #444;
+            margin-top: 15px;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 5px;
+            background-color: #3f51b5;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ffbb33, #ff6f61);
+            padding: 15px 60px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #ff6f61, #ffbb33);
+        }
+
+        .input-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #eee;
+        }
+
+        .input-box span {
+            margin-right: 15px;
+        }
+
+        #referralCode {
+            background-color: #222;
+            color: #ffbb33;
+            padding: 12px 20px;
+            border-radius: 8px;
+            padding: 20px;
+            margin-right: 10px;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #referralCode:focus {
+            outline: none;
+            background-color: #333;
+            border: 2px solid #ffbb33;
+        }
+    </style>
+</head>
+
+<body class="bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+
+    <%- include('./partials/preloader') %>
+        <%- include('./partials/header') %>
+            <main class="min-h-screen section-pt">
+                <div class="referral-container">
+                    <!-- Level Cards Section on top of page -->
+                    <h1>Referral Program</h1>
+                    <p class="text-white">Invite friends and earn rewards! Share your referral code and level up!</p>
+                    <br>                    
+                    <% if (referral_code) { %>
+
+                        <div class="referral-card">
+                            <div class="referral-card-header flex-c">
+                                <div class="user-details">
+                                    <img src="/images/icons/level<%=refLevel%>.png" alt="Avatar"
+                                        class="referral-avatar">
+                                    <p class="user-name">
+                                        <%=locals.userName%>
+                                    </p>
+                                    <p class="referral-count">Total Referrals:<%= totalref %>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="referral-progress-bar">
+                                <div class="progress" style="width: 0%;"></div>
+                            </div>
+                            
+                        </div>
+                        <div class="input-box">
+                            <span>Your Referral Code:</span>
+                            <button id="referralCode" contenteditable="true">
+                                <%= referral_code %>
+                            </button><sl-copy-button value="<%= referral_code %>" copy-label="Copy code!"
+                                success-label="Code copied!"></sl-copy-button>
+                        </div>
+                        <%}%>
+
+                            <div class="level-section">
+                                <div class="level-card">
+                                    <h3>Level 1</h3>
+                                    <p>Share 3 times, Earn upto RS 50/month</p>
+                                </div>
+                                <div class="level-card">
+                                    <h3>Level 2</h3>
+                                    <p>Share 6 times, Earn upto RS 100/month</p>
+                                </div>
+                                <div class="level-card">
+                                    <h3>Level 3</h3>
+                                    <p>Share 15 times, Earn upto RS 220/month</p>
+                                </div>
+                                <div class="level-card">
+                                    <h3>Level 4</h3>
+                                    <p>Share 60 times, Earn upto RS 1180/month</p>
+                                </div>
+                                <div class="level-card">
+                                    <h3>Level 5</h3>
+                                    <p>Share 130 times, Earn upto RS 2400/month</p>
+                                </div>
+                                <div class="level-card">
+                                    <h3>Level 6</h3>
+                                    <p>Share 1050 times, Earn upto RS 30,000/month</p>
+                                </div>
+                            </div>
+
+
+
+                            <% if (referral_code) { %>
+
+                                <% } else { %>
+                                    <form action="/user/refferal" method="post">
+                                        <button class="cta-button">Join Referral Program</button>
+                                    </form>
+                                    <% } %>
+                </div>
+            </main>
+            <<script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Get the total referrals from the page
+                    const totalReferrals = <%= totalref %>; // Assuming totalref is being passed to the page from your server-side rendering
+                    const referralLevels = [3, 6, 15, 60, 130, 1050]; // Levels for each milestone
+                    let progress = 0;
+                    progress = Math.min((totalReferrals / referralLevels[0]) * 100, 100);
+
+                    // Find the highest referral level the user has reached
+                    for (let i = referralLevels.length - 1; i >= 0; i--) {
+                        if (totalReferrals >= referralLevels[i]) {
+                            progress = Math.min((totalReferrals / referralLevels[i]) * 100, 100);
+                            break;
+                        }
+                    }
+
+                    // Set the width of the progress bar dynamically
+                    const progressBar = document.querySelector('.progress');
+                    if (progressBar) {
+                        console.log(progressBar);
+                        
+                        progressBar.style.width = `${progress}%`;
+                    }
+
+                    // Optional: Display the referral progress in text
+                    const referralText = document.querySelector('.referral-count');
+                    if (referralText) {
+                        referralText.textContent = `Total Referrals: ${totalReferrals} (Progress: ${Math.round(progress)}%)`;
+                    }
+                });
+            </script>
+
+            <%- include('./partials/footer') %>
+</body>
+
+</html>

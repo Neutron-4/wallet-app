@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+    <title>Exchme - Currency Exchange</title>
+    <script defer="" src="/js/app.js"></script>
+    <link href="/styles/app.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1f1f1f;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #2d2d2d;
+            color: #fff;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        table th {
+            background-color: #333;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background-color: #444;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .transaction-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Status Colors */
+        .completed {
+            background-color: #28a745; /* Green for Completed */
+        }
+
+        .denied {
+            background-color: #dc3545; /* Red for Denied */
+        }
+
+        .pending {
+            background-color: #ffc107; /* Gold for Pending */
+        }
+
+        /* Amount Colors */
+        .deposit-amount {
+            color: #28a745; /* Green for Deposit */
+        }
+
+        .withdraw-amount {
+            color: #dc3545; /* Red for Withdraw */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- preloader start -->
+    <%- include('./partials/preloader') %>
+    <!-- preloader end -->
+
+    <!-- scroll to top button start -->
+    <div class="scroll-to-top show" id="scrollToTop">
+        <i class="ph ph-arrow-fat-lines-up"></i>
+    </div>
+    <!-- scroll to top button end -->
+
+    <!-- header start -->
+    <%- include('./partials/header') %>
+    <!-- header end -->
+
+    <main class="min-h-screen">
+        <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+            <br><br><br>
+            <div class="container section-py">
+                <!-- <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p"> -->
+                    <div class="xl:col-start-1 xl:col-end-7">
+                        <div class="card-1 p-32p">
+                            <!-- Transaction History -->
+                            <% if (transactions.length > 0) { %>
+                            <h2 class="text-32 text-white mt-40p flex-c">Your Transactions:</h2>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Status</th>
+                                            <th>Remark</th>
+                                            <th>Transaction ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% transactions.forEach(transaction => { %>
+                                        <tr>
+                                            <td><%= transaction.uploaded_on %></td>
+                                            <td class="<%= transaction.type === 'Deposit' ? 'deposit-amount' : 'withdraw-amount' %>">
+                                                <%= transaction.type === 'Deposit' ? '+' : '-' %><%= transaction.amount %>
+                                            </td>
+                                            <td><%= transaction.type %></td>
+                                            <td>
+                                                <span class="transaction-status flex-c
+                                                    <%= transaction.status === 'Complete' ? 'completed' : 
+                                                        transaction.status === 'Denied' ? 'denied' : 
+                                                        transaction.status === 'Pending' ? 'pending' : '' %>">
+                                                    <%= transaction.status %>
+                                                </span>
+                                            </td>
+                                            <td><%= transaction.remark || 'N/A' %></td>
+                                            <td><%= transaction.id %></td>
+                                        </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <% } else { %>
+                            <p class="message">You haven't done any transactions yet.</p>
+                            <% } %>
+
+                            <% if (typeof transactionId !== 'undefined') { %>
+                            <p class="text-xl text-white mt-4">
+                                Your transaction was successful! Transaction ID: <strong><%= transactionId %></strong>
+                            </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- footer one start -->
+    <%- include('./partials/footer') %>
+    <!-- footer one end -->
+
+</body>
+
+</html>

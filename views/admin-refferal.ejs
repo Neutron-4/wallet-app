@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referrals</title>
+  <link rel="stylesheet" href="/styles/admin.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+    }
+
+    header h2 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .button-container {
+      text-align: right;
+    }
+
+    .view-all-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .view-all-btn:hover {
+      background-color: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f2f2f2;
+      color: #007bff;
+    }
+
+    table tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .btn-delete {
+      background-color: red;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-delete:hover {
+      background-color: darkred;
+    }
+
+    .pagination {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .pagination a, .pagination span {
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #007bff;
+      border: 1px solid #ddd;
+    }
+
+    .pagination a:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .pagination span {
+      background-color: #f2f2f2;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .status.complete {
+      background-color: #28a745;
+    }
+
+    .status.denied {
+      background-color: #dc3545;
+    }
+
+    .status.pending {
+      background-color: #ffc107;
+    }
+
+    .status:hover {
+      transform: scale(1.05);
+    }
+
+    #status-change {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      width: 80%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    #status-change form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    #status-change select, #status-change input, #status-change button {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    #status-change button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+
+    #status-change button:hover {
+      background-color: #45a049;
+    }
+
+    #status-change .close-btn {
+      color: red;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    #status-change .close-btn:hover {
+      color: darkred;
+    }
+
+    .pagination a {
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #007bff;
+      border: 1px solid #ddd;
+    }
+
+    .pagination a.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .pagination a:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .pagination span {
+      padding: 8px 16px;
+      border-radius: 5px;
+      color: #007bff;
+      border: 1px solid #ddd;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="brand">
+      <a href="/admin/dashboard">
+        <h1>EXCHME Website</h1>
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/transactions">Transactions</a></li>
+        <li><a href="/admin/orders">Orders</a></li>
+        <li><a href="/admin/currencyrate">Currency Rate</a></li>
+        <li><a href="/admin/posts">Posts</a></li>
+        <li><a href="/admin/offers">Offers</a></li>
+        <li><a href="/admin/refferal-details">Referral Commissions</a></li>
+        <li><a href="/admin/setting">Setting</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h2>Referrals</h2>
+      <div class="button-container">
+        <!-- Redirect Button -->
+        <a href="/admin/all-referrals" class="view-all-btn">View All Referrals</a>
+      </div>
+    </header>
+
+    <div id="previewProof" style="display: none;"></div>
+    <div id="status-change" class="status-change" style="display: none;"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Deposited By</th>
+          <th>Referral Code</th>
+          <th>Deposit Time</th>
+          <th>Deposit Amount</th>
+          <th>Commission Amount</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (refferls.length > 0) { %>
+          <% refferls.forEach((ref) => { %>
+            <tr id="row-<%= ref.id %>-<%= ref.username %>">
+              <td><%= ref.transaction_id %></td>
+              <td><%= ref.username || 'N/A' %></td>
+              <td><%= ref.user_id || 'N/A' %></td>
+              <td><%= ref.created_at || 'N/A' %></td>
+              <td><%= ref.DepositAmount || 'N/A' %></td>
+              <td>
+                <%= ref.amount || 'Enter Amount' %> 
+                <button onclick="changeStatus('<%= ref.id %>', '<%= ref.username %>', '<%= ref.amount %>', '<%= ref.user_id %>')" style="margin-left: 10px;">Edit</button>
+              </td>
+              <td><%= ref.type || 'N/A' %></td>
+              <td>
+                <button class="status <%= (ref.product_status || 'Pending').toLowerCase() %>">
+                  <%= ref.product_status || 'Pending' %>
+                </button>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="8">No transactions found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <% if (page > 1) { %>
+        <a href="?page=<%= page - 1 %>">&laquo; Previous</a>
+      <% } else { %>
+        <span>&laquo; Previous</span>
+      <% } %>
+    
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="?page=<%= i %>" class="<%= i === page ? 'active' : '' %>"><%= i %></a>
+      <% } %>
+    
+      <% if (page < totalPages) { %>
+        <a href="?page=<%= page + 1 %>">Next &raquo;</a>
+      <% } else { %>
+        <span>Next &raquo;</span>
+      <% } %>
+    </div>
+
+    <script>
+      function showProof(path) {
+        document.getElementById('previewProof').innerHTML = `
+        <button class="close-btn" onclick="closeProof()">×</button>
+        <img src="/uploads/${path}" alt="Proof Image">
+        `;
+        document.getElementById('previewProof').style.display = 'block';
+      }
+
+      function changeStatus(rowId, username, amount, user_id) {
+        document.getElementById('status-change').style.display = 'flex';
+        document.getElementById('status-change').innerHTML = `
+        <button class="close-btn" onclick="closeProof()">×</button>
+        <form action="/admin/updateComission/${rowId}" method="POST" class="status-update-form">
+        <h3>Updating Commission for:</h3>
+        <div class="info">
+            <span><strong>Username:</strong> ${username}</span>
+            <span><strong>Deposit Amount:</strong> ${amount}</span>
+            <span><strong>Transaction ID:</strong> ${amount}</span>
+        </div>
+        
+        <label for="Commision_Amount">Commission Amount:</label>
+        <input type="number" name="comission" value="0" required min="0" step="0.01" placeholder="Enter Commission Amount">
+        
+        <input type="hidden" name="user_id" value="${user_id}">
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Update</button>
+            <button type="button" class="btn-cancel" onclick="closeProof()">Cancel</button>
+        </div>
+    </form>
+        `;
+      }
+
+      function closeProof() {
+        document.getElementById('previewProof').style.display = 'none';
+        document.getElementById('status-change').style.display = 'none';
+      }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXCHME Admin</title>
+  <link rel="stylesheet" href="/styles/admin.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      /* Center content horizontally */
+      align-items: flex-start;
+      /* Align at the top of the page */
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    /* Main content styles */
+    .main-content {
+      margin-left: 360px;
+      padding: 20px;
+      width: calc(100% - 260px);
+      background-color: #fff;
+      min-height: 100vh;
+    }
+
+    .main-content h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px;
+      box-sizing: border-box;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .offer-form {
+      width: 100%;
+      max-width: 700px;
+      background-color: #ecf0f1;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .offer-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .offer-form .form-group label {
+      font-size: 16px;
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .offer-form .form-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .offer-form .form-input[type="file"] {
+      padding: 5px;
+    }
+
+    .offer-form .form-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .offer-form .form-submit {
+      padding: 12px 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .offer-form .form-submit:hover {
+      background-color: #2980b9;
+    }
+
+    /* Responsive design */
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+      }
+
+      .offer-form {
+        padding: 20px;
+      }
+
+      .offer-form .form-input {
+        font-size: 14px;
+      }
+
+      .offer-form .form-submit {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 180px;
+      }
+
+      .main-content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+      }
+
+      .offer-form {
+        padding: 15px;
+        width: 90%;
+      }
+
+      .offer-form .form-input {
+        font-size: 14px;
+      }
+
+      .offer-form .form-submit {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* For small screens, adjust layout */
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 10px;
+      }
+
+      .sidebar nav ul li a {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 10px;
+      }
+
+      .offer-form {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .offer-form .form-input {
+        font-size: 12px;
+      }
+
+      .offer-form .form-submit {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar - Already implemented in background, no CSS needed here -->
+  <div class="sidebar">
+    <div class="brand">
+      <a href="/admin/dashboard">
+        <h1>EXCHME Website</h1>
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/transactions">Transactions</a></li>
+        <li><a href="/admin/orders">Orders</a></li>
+        <li><a href="/admin/currencyrate">Currency Rate</a></li>
+        <li><a href="/admin/posts">Posts</a></li>
+        <li><a href="/admin/offers">Offers</a></li>
+        <li><a href="/admin/refferal-details">Referral Commisions</a></li>
+        <li><a href="/admin/setting">Setting</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content section-pt">
+    <h2>  <%= offer ? 'Edit Offer' : 'Create New Offer' %></h2>
+    <div class="container">
+      <form action="<%= offer ? '/admin/offer-details/' + offer.id : '/admin/offer-details' %>" method="POST" enctype="multipart/form-data" class="offer-form">
+        <div class="form-group">
+          <label for="offername">Offer Name</label>
+          <input type="text" id="offername" name="offername" value="<%= offer ? offer.offername : '' %>" class="form-input" placeholder="Enter offer name" required>
+        </div>
+        <div class="form-group">
+          <label for="offedetails">Offer Details</label>
+          <textarea id="offedetails" name="offedetails" class="form-input" placeholder="Enter offer details" required><%= offer ? offer.offedetails : '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label for="percentage">Offer Percentage</label>
+          <input type="number" id="percentage" name="percentage" value="<%= offer ? offer.percentage : '' %>" class="form-input" placeholder="Enter offer percentage (Don't put % symbol use number only)" required>
+        </div>
+        <div class="form-group">
+          <label for="percentage">Minimum Orders</label>
+          <input type="text" id="minOrder" name="minOrder" value="<%= offer ? offer.minimum_product : '' %>" class="form-input" placeholder="Enter Minimum no. Invested Products" required>
+        </div>
+        <!-- <div class="form-group">
+          <label for="starting">Starting Date</label>
+          <input type="date" id="starting" name="starting" value="<%= offer ? offer.starting : '' %>" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="expiry_on">Expiry Date</label>
+          <input type="date" id="expiry_on" name="expiry_on" value="<%= offer ? offer.expiry_on : '' %>" class="form-input" required>
+        </div> -->
+          <!-- <div class="form-group">
+            <label for="thumbnail">Offer Thumbnail</label>
+            <input type="file" id="thumbnail" name="thumbnail" class="form-input">
+          </div> -->
+        <div class="form-actions">
+          <button type="submit" class="form-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

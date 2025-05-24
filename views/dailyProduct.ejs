@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+    <title>EXCHME - Checkout</title>
+    <script defer="" src="/js/app.js"></script>
+    <link href="/styles/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* Global Style */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #121212;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .checkout-container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            margin-top: 200px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 30px;
+            color: #e0b0ff;
+            margin-bottom: 20px;
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4b4b4b;
+            padding-bottom: 20px;
+        }
+
+        .product-image {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .product-details {
+            text-align: center;
+        }
+
+        .product-details h2 {
+            margin-top: 0;
+            color: #dcdcdc;
+            font-size: 24px;
+        }
+
+        .product-details p {
+            margin-top: 0;
+            color: #a0a0a0;
+            font-size: 15px;
+        }
+
+        /* Styling for Quantity Section */
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .quantity-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #333;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .quantity-button {
+            background-color: #9b59b6;
+            border: none;
+            color: white;
+            font-size: 24px;
+            /* Increased font size for the buttons */
+            padding: 15px 20px;
+            /* Increased padding */
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 0 10px;
+            /* Increased margin for better spacing */
+            width: 50px;
+            /* Ensure the buttons are sufficiently wide */
+            height: 50px;
+            /* Ensure the buttons are sufficiently tall */
+        }
+
+        .quantity-button:hover {
+            background-color: #8e44ad;
+            transform: scale(1.1);
+        }
+
+        .quantity-button:active {
+            background-color: #7d3c98;
+            transform: scale(0.98);
+        }
+
+        .quantity-input {
+            width: 80px;
+            /* Increased width for the input box */
+            text-align: center;
+            font-size: 24px;
+            /* Increased font size for the input */
+            background-color: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            /* Increased padding for better look */
+            margin: 0 15px;
+            /* Increased margin for better spacing */
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .quantity-input:focus {
+            background-color: #444;
+            border-color: #9b59b6;
+            outline: none;
+        }
+
+        .quantity-input::-webkit-outer-spin-button,
+        .quantity-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quantity-input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Styling for the "I agree" checkbox */
+        .terms-confirm {
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 16px;
+        }
+
+        .terms-confirm label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #dcdcdc;
+        }
+
+        .terms-confirm input[type="checkbox"] {
+            width: 20px;
+            /* Make checkbox larger */
+            height: 20px;
+            /* Make checkbox larger */
+            margin-right: 10px;
+            /* Space between checkbox and label */
+            cursor: pointer;
+            accent-color: #9b59b6;
+            /* Change the accent color to match the theme */
+        }
+
+        .terms-confirm a {
+            color: #9b59b6;
+            /* Change link color to match theme */
+            text-decoration: none;
+        }
+
+        .terms-confirm a:hover {
+            text-decoration: underline;
+        }
+
+        /* Styling for the Proceed Button */
+        .proceed-button {
+            background: linear-gradient(to right, #8e44ad, #9b59b6);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .calculations {
+            color: white;
+        }
+
+        .proceed-button:hover {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 15px;
+                margin-top: 20px;
+                width: 90%;
+            }
+
+            .product-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .quantity-container {
+                flex-direction: column;
+            }
+
+            .quantity-input {
+                width: 60px;
+                /* Adjust the input box size for mobile */
+            }
+
+            .quantity-button {
+                padding: 12px 15px;
+                /* Adjust button size for mobile */
+                width: 40px;
+                height: 40px;
+            }
+
+            .proceed-button {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .quantity-input {
+                font-size: 20px;
+                padding: 8px;
+            }
+
+            .quantity-button {
+                font-size: 20px;
+                padding: 10px 12px;
+                width: 35px;
+                height: 35px;
+            }
+
+            .proceed-button {
+                padding: 10px 18px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <%- include('./partials/preloader') %>
+
+        <!-- Scroll to Top Button -->
+        <div class="scroll-to-top show" id="scrollToTop">
+            <i class="ph ph-arrow-fat-lines-up"></i>
+        </div>
+
+        <!-- Header -->
+        <%- include('./partials/header') %>
+
+            <main class="min-h-screen">
+                <div class="container">
+                    <section class="checkout-section flex-c">
+                        <div class="checkout-container">
+                            <h2>Checkout</h2>
+                            
+                            <div class="product-info">
+                                <div class="product-image">
+                                    <img src="../posts/<%= products.thumbnail%>" alt="thumbnail">
+                                </div>
+                                <div class="product-details">
+                                    <h2><%=products.category == 'dailyIncome' ? "Crypto": 'Real Estate' %></h2>
+                                    <p><strong><%=products.title%></strong></p>
+                                    <p>Price: ₹<%= products.package_price%>
+                                    </p>
+
+                                    <!-- Quantity Section -->
+                                    <div class="quantity-container">
+                                        <p>Quantity: </p>
+                                        <button class="quantity-button" id="decrease">-</button>
+                                        <input type="number" id="quantityInput" onkeyup="updateCalculations()"
+                                            class="quantity-input" value="1" min="1">
+                                        <button class="quantity-button" id="increase">+</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="calculations">
+                                <p><strong>Quantity:</strong> <span id="quantityDisplay">1</span></p>
+                                <p><strong>Total:</strong> <span id="total">₹0</span></p>
+                            </div>
+
+                            <!-- Form to submit data -->
+                            <form id="checkoutForm" action="/checkoutConfirm" method="POST">
+                                <!-- Hidden inputs to send data -->
+                                <input type="hidden" name="productid" value="<%= products.blogid%>">
+                                <input type="hidden" name="quantity" id="hiddenQuantity">
+                                <input type="hidden" name="total" id="hiddenTotal">
+                                <input type="hidden" name="price_per_item" value="<%= products.package_price %>">
+
+                                <div class="terms-confirm">
+                                    <label><input type="checkbox" id="terms"> I accept the <a
+                                            href="/terms-and-conditions">Terms and Conditions</a></label>
+                                    <% if (products.package_price <=balance ) { %>
+                                        <label><input type="checkbox" name="useBalance" id="useBalance"> Use my
+                                            Availabel Balance</label>
+                                        <% } %>
+                                </div>
+                            </form>
+                            <button type="button" class="proceed-button" onclick="updateFormAndSubmit()">Proceed to
+                                Payment</button>
+                        </div>
+                    </section>
+                </div>
+            </main>
+            <script>
+                function updateFormAndSubmit() {
+                    const quantity = parseInt(document.getElementById('quantityInput').value);
+                    const price = parseFloat('<%= products.package_price %>'); // Get the unit price
+                    const total = price * quantity;
+
+                    document.getElementById('hiddenQuantity').value = quantity;
+                    document.getElementById('hiddenTotal').value = total.toFixed(2);
+
+                    const termsAccepted = document.getElementById('terms').checked;
+
+                    if (!termsAccepted) {
+                        alert('You must accept the Terms and Conditions and confirm the payment.');
+                        return;
+                    }
+                    if (document.getElementById('useBalance')) {
+
+                        const useBalance = document.getElementById('useBalance').checked;
+                        console.log('sd', useBalance);
+
+                        if (!useBalance) {
+                            Swal.fire({
+                                title: "Are you Sure you want use your balance ?",
+                                showCancelButton: true,
+                                confirmButtonText: "Yes",
+                                cancelButtonText: "No !",
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    document.getElementById('checkoutForm').submit();
+                                    return
+                                }
+                            });
+                        }
+                    }
+                    document.getElementById('checkoutForm').submit();
+
+                }
+
+                // Quantity update logic
+                document.getElementById('decrease').addEventListener('click', function () {
+                    let quantityInput = document.getElementById('quantityInput');
+                    if (quantityInput.value > 1) {
+                        quantityInput.value--;
+                        document.getElementById('quantityDisplay').innerText = quantityInput.value;
+                        updateCalculations();
+                    }
+                });
+
+                document.getElementById('increase').addEventListener('click', function () {
+                    let quantityInput = document.getElementById('quantityInput');
+                    quantityInput.value++;
+                    document.getElementById('quantityDisplay').innerText = quantityInput.value;
+
+                    updateCalculations();
+                });
+
+                function updateCalculations() {
+                    const quantity = parseInt(document.getElementById('quantityInput').value);
+                    const price = parseFloat('<%= products.package_price %>');
+           
+                    if (quantity >= 1) {
+                        document.getElementById('quantityDisplay').innerText = quantity;
+                        const total = price * quantity;
+                        document.getElementById('total').textContent = '₹' + total.toFixed(2);
+                    } else if(quantity <=0){
+                        document.getElementById('quantityInput').value = 1;
+                        document.getElementById('total').textContent = '₹' + price.toFixed(2);
+                        document.getElementById('quantityDisplay').innerText = 1;
+                    }
+
+                }
+
+                // Initialize calculations
+                updateCalculations();
+            </script>
+</body>
+
+</html>

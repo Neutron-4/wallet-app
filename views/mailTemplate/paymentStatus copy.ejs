@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Request Status</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            /* background-color: #4A90E2; Soft Blue */
+            color: black;
+            text-align: center;
+            padding: 40px 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .header img {
+            width: 120px;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .status {
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .accepted {
+            background-color: #34b27b;
+            /* Soft Green */
+        }
+
+        .denied {
+            background-color: #e94e77;
+            /* Coral Red */
+        }
+
+        .content {
+            padding: 20px;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        .details {
+            background-color: #fafbff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .details p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555555;
+        }
+
+        .details p strong {
+            color: #333;
+        }
+
+        .reason {
+            background-color: #f3f6fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .footer {
+            background-color: #f1f4f9;
+            text-align: center;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: #777777;
+        }
+
+        .btn {
+            background-color: #FF6A5C;
+            /* Vibrant Coral */
+            color: white;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 25px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #e94e77;
+        }
+
+        .complete {
+            background-color: #28a745;
+        }
+
+        .denied {
+            background-color: #dc3545;
+        }
+
+        .pending {
+            background-color: #ffc107;
+        }
+
+        @media screen and (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content h3 {
+                font-size: 20px;
+            }
+
+            .details p {
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="https://www.example.com/logo.png" alt="Company Logo">
+            <h1>Payment Request Status</h1>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="<%=locals.status.toLowerCase()%>">
+            <%=locals.status%>
+        </div> <!-- Change class to "denied" for denied status -->
+
+        <!-- Email Content -->
+        <div class="content">
+            <h3>Dear [User's Name],</h3>
+            <p>We hope this message finds you well! We wanted to update you regarding your recent payment request. Below
+                are the details:</p>
+        </div>
+
+        <!-- Payment Details -->
+        <div class="details">
+            <p><strong>Username:</strong>
+                <%=locals.username< /p>
+                    <p><strong>Payment ID:</strong>
+                        <%=locals.id%>
+                    </p>
+                    <p><strong>Amount:</strong>
+                        <%=locals.amount%>
+                    </p>
+                    <p><strong>Payment Method:</strong>
+                        <%=locals.payment_method%>
+                    </p>
+                    <p><strong>Date:</strong>
+                        <%=locals.date%>
+                    </p>
+                    <p><strong>Status:</strong>
+                        <%=locals.status%>
+                    </p>
+                    <p><strong>Transaction Type:</strong>
+                        <%=locals.type%>
+                    </p>
+        </div>
+
+        <div class="reason">
+            <p><strong>Reason for <%=locals.status%>:</strong></p>
+            <p>
+                <%=locals.remark%>>
+            </p>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="http://localhost:3000/mytransactions" class="btn">View Payment History</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>If you have any questions or need further assistance, please don’t hesitate to reach out to our support
+                team at <a href="mailto:support@example.com">support@example.com</a>.</p>
+            <p>Thank you for choosing [Your Company Name].</p>
+            <p>&copy; [Current Year] [Your Company Name]. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>Exchme - Currency Exchange</title>
+  <script defer="" src="/js/app.js"></script>
+  <link href="/styles/app.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+
+  <style>
+    #fee-details {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 16px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #fee-details div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    #fee-details span {
+      font-size: 16px;
+    }
+
+    #fee-details .font-bold {
+      font-weight: bold;
+    }
+
+    #real_rate {
+      visibility: hidden;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+
+    /* Popup Styles */
+    .pop-up-for-taxs {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      text-align: left;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    .popup-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- preloader start -->
+  <%- include('../partials/preloader') %>;
+    <!-- preloader end -->
+
+    <!-- scroll to top button start -->
+    <div class="scroll-to-top show" id="scrollToTop">
+      <i class="ph ph-arrow-fat-lines-up"></i>
+    </div>
+    <!-- scroll to top button end -->
+
+    <!-- header start -->
+    <%- include('../partials/header') %>;
+
+
+      <!-- header end -->
+
+      <!-- main start -->
+      <main class="min-h-screen">
+
+        <!-- Withdraw section start -->
+        <main class="min-h-screen">
+          <br><br>
+          <div id="pop-up-for-taxs" class="pop-up-for-taxs">
+            <h3>Fee and Tax Details</h3>
+            <div id="feeDetails"></div>
+            <label>
+              <input type="checkbox" id="agreeCheckbox" /> I agree with the terms and conditions.
+            </label>
+            <div class="popup-buttons">
+              <button id="submitBtn">Submit</button>
+              <button id="cancelBtn">Cancel</button>
+            </div>
+          </div>
+          <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+            <div class="container section-py">
+              <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p">
+                <div class="xl:col-start-1 xl:col-end-7">
+                  <div class="card-1 p-32p">
+                    <h3 class="text-32 text-white mb-16p flex-c">Withdraw Funds</h3>
+
+                    <!-- Payment Method Selection -->
+                    <div id="payment-method-selection">
+                      <h4 class="text-24 text-white mb-16p flex-c">Select Payment Method</h4>
+                      <ul id="main-options" class="text-white text-lg font-semibold mt-4">
+                        <li class="mb-4 flex-c" style="margin-bottom: 20px;">
+                          <button type="button" class="btn-md btn-secondary"
+                            style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                            onclick="selectPaymentMethod('Bank')">
+                            <img src="/images/payment/bank.png" alt="Bank"
+                              style="width: 24px; height: 24px; margin-right: 10px;">
+                            Bank
+                          </button>
+                        </li>
+                        <li class="mb-4 flex-c" style="margin-bottom: 20px;">
+                          <button type="button" class="btn-md btn-secondary"
+                            style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                            onclick="selectPaymentMethod('UPI')">
+                            <img src="/images/payment/upi.png" alt="UPI"
+                              style="width: 24px; height: 24px; margin-right: 10px;">
+                            UPI
+                          </button>
+                        </li>
+                        <li class="mb-4 flex-c " style="margin-bottom: 20px;">
+                          <button type="button" class="btn-md btn-secondary "
+                            style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                            onclick="toggleCryptoOptions()">
+                            <img src="/images/payment/crypto.png" alt="Crypto"
+                              style="width: 24px; height: 24px; margin-right: 10px;">
+                            Crypto
+                          </button>
+                        </li>
+                      </ul>
+
+                      <!-- Hidden Cryptocurrency Options -->
+                      <ul id="crypto-options" class="hidden text-white text-lg font-semibold mt-4">
+                        <% ['BTC', 'USDT' ].forEach((currency)=> { %>
+                          <li class="mb-4 flex-c" style="margin-bottom: 20px;">
+                            <button type="button" class="btn-md btn-secondary"
+                              style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                              onclick="selectPaymentMethod('<%= currency %>')">
+                              <img src="/images/payment/<%= currency.toLowerCase() %>.png" alt="<%= currency %>"
+                                style="width: auto; height: 28px; margin-right: 10px;">
+                              <%= currency %>
+                            </button>
+                          </li>
+                          <% }) %>
+                            <li class="mb-4" style="margin-bottom: 20px;">
+                              <button type="button" class="btn-md btn-secondary"
+                                onclick="goBackToMainOptions()">Back</button>
+                            </li>
+                      </ul>
+                    </div>
+
+                    <!-- Withdraw Form -->
+                    <div id="withdraw-form" class="hidden">
+                      <form action="/user/withdraw" method="POST" enctype="multipart/form-data">
+                        <div class="grid grid-cols-6 gap-24p mb-16p">
+                          <!-- Withdraw Amount Field -->
+                          <div class="col-span-6">
+                            <label for="amount" class="text-18 text-white mb-16p">Withdraw Amount</label>
+                            <input autocomplete="off" type="number" id="amount" name="amount" onkeyup="updateRate()"
+                              class="box-input-5 border-glass-3" placeholder="Enter Withdraw Amount" required />
+                            <span clas="text-white" style="visibility:hidden; color: white; padding-left:24px ;"
+                              id="real_rate"></span>
+
+                            <!-- Fees and Deductions Display Section -->
+                            <div id="fee-details" class="mt-4 text-white hidden">
+                              <div class="mb-2">
+                                <span class="text-lg">Platform Fee (3%):</span> <span id="platform-fee"></span>
+                              </div>
+                              <div class="mb-2">
+                                <span class="text-lg">Tax (12%):</span> <span id="tax"></span>
+                              </div>
+                              <div class="mb-2 font-bold">
+                                <span class="text-lg">Total Deductions:</span> <span id="total-deductions"></span>
+                              </div>
+                              <div class="mb-2 font-bold">
+                                <span class="text-lg">Amount after Deductions:</span> <span
+                                  id="amount-after-fees"></span>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Server Selector (if needed) -->
+                          <div id="crypto-server-container" class="col-span-6 hidden">
+                            <label for="crypto-network" class="text-18 text-white mb-16p">Select Network</label>
+                            <select id="crypto-network" name="network" class="box-input-5 border-glass-3" required
+                              style="color: rgb(255, 255, 255); background-color: #391a56;">
+                            </select>
+                          </div>
+
+                          <!-- Payment Details -->
+                          <div id="payment-details" class="col-span-6 text-white">
+                            <div id="dynamic-payment-fields" class="mt-4"></div>
+                          </div>
+                        </div>
+
+
+                        <!-- Upload Proof Field -->
+                        <div class="mt-4 col-span-6">
+                          <label for="proof" class="text-18 text-white mb-16p">Upload Proof (JPEG/PNG)</label>
+                          <input autocomplete="off" type="file" id="proof" name="proof" accept=".png, .jpg, .jpeg"
+                            class="box-input-5 border-glass-3" required />
+                          <small id="file-size-error" style="color: red; display: none;">File size must be less than
+                            5MB</small>
+                          <small id="file-type-error" style="color: red; display: none;">File type must png, jpg or
+                            jpeg </small>
+                        </div>
+
+                        <!-- Hidden Input to Hold Selected Payment Method -->
+                        <input type="hidden" id="payment_method" name="payment_method" required />
+
+                        <!-- Buttons -->
+                        <div class="flex gap-4">
+                          <button type="button" class="btn-md btn-secondary"
+                            onclick="goBackToPaymentSelection()">Back</button>
+                          <button type="submit" class="btn-md btn-primary">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <!-- Transaction History -->
+                    <h2 class="text-32 text-white mt-40p">Your Transactions</h2>
+                    <ul class="text-white text-lg font-semibold mt-4">
+                      <% transactions.slice(0, 5).forEach(transaction=> { %>
+                        <li class="mb-4">
+                          <span class="text-xl">Amount: <%= transaction.amount %> - Status: <%= transaction.status %>
+                          </span>
+                        </li>
+                        <% }) %>
+                    </ul>
+
+                    <% if (transactions.length> 5) { %>
+                      <sl-button href="/mytransactions">Show more...</sl-button>
+                      <% } %>
+
+                        <% if (typeof transactionId !=='undefined' ) { %>
+                          <p class="text-xl text-white mt-4">We've received your deposit request with the transaction
+                            ID:
+                            <strong>
+                              <%= transactionId %>
+                            </strong>
+                          </p>
+                          <% } %>
+
+                  </div>
+                </div>
+                <div class="xl:col-start-8 xl:col-end-13">
+                  <img class="lg:max-w-[unset] animate-bounce-slow-top" src="/images/photos/authBanner.png"
+                    alt="banner" />
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        <<script>
+          let meth = '';
+          const paymentMethodFields = {
+          'Bank': `
+          <label for="accountHolderName" class="text-18 text-white mb-16p">Account Holder Name</label>
+          <input autocomplete="off" type="text" id="accountHolderName" name="accountHolderName"
+            class="box-input-5 border-glass-3" placeholder="Enter your Account Holder Name" required />
+          <label for="bankAccount" class="text-18 text-white mb-16p">Bank Account Number</label>
+          <input autocomplete="off" type="text" id="bankAccount" name="bankAccount" class="box-input-5 border-glass-3"
+            placeholder="Enter your Bank Account Number" required />
+          <label for="ifsc" class="text-18 text-white mb-16p">IFSC Code</label>
+          <input autocomplete="off" type="text" id="ifsc" name="ifsc" class="box-input-5 border-glass-3"
+            placeholder="Enter your IFSC Code" required />
+          `,
+
+          'UPI': `
+          <label for="upiId" class="text-18 text-white mb-16p">UPI ID</label>
+          <input autocomplete="off" type="text" id="upiId" name="upiId" class="box-input-5 border-glass-3"
+            placeholder="Enter your UPI ID" required />
+          `,
+          'BTC': `
+          <label for="walletHash" class="text-18 text-white mb-16p">Bitcoin Wallet Address</label>
+          <input autocomplete="off" type="text" id="walletHash" name="walletHash" class="box-input-5 border-glass-3"
+            placeholder="Enter your BTC Wallet Address" required />
+          `,
+          'USDT': `
+          <label for="usdtWallet" class="text-18 text-white mb-16p">USDT Wallet Address</label>
+          <input autocomplete="off" type="text" id="usdtWallet" name="usdtWallet" class="box-input-5 border-glass-3"
+            placeholder="Enter your USDT Wallet Address" required />
+          `
+          };
+
+
+
+
+          function toggleCryptoOptions() {
+          const mainOptions = document.getElementById('main-options');
+          const cryptoOptions = document.getElementById('crypto-options');
+          mainOptions.classList.toggle('hidden');
+          cryptoOptions.classList.toggle('hidden');
+          }
+
+          function goBackToMainOptions() {
+          document.getElementById('real_rate').style.visibility = "hidden";
+          document.getElementById('main-options').classList.remove('hidden');
+          document.getElementById('proof').value = ""
+          document.getElementById('crypto-options').classList.add('hidden');
+          }
+
+          function goBackToPaymentSelection() {
+          document.getElementById('real_rate').style.visibility = "hidden";
+          document.getElementById('amount').value = "";
+          document.getElementById('proof').value = ""
+          document.getElementById('withdraw-form').classList.add('hidden');
+          document.getElementById('payment-method-selection').classList.remove('hidden');
+          updateMinValue();
+          }
+
+          function selectPaymentMethod(method) {
+          document.getElementById('payment-method-selection').classList.add('hidden');
+          document.getElementById('withdraw-form').classList.remove('hidden');
+
+          document.getElementById('payment_method').value = method;
+          meth = method;
+          const paymentFields = document.getElementById('dynamic-payment-fields');
+          paymentFields.innerHTML = paymentMethodFields[method] || '';
+
+          const cryptoServerContainer = document.getElementById('crypto-server-container');
+          const cryptoNetworkSelect = document.getElementById('crypto-network');
+
+          if (method === 'BTC') {
+          cryptoServerContainer.classList.remove('hidden');
+          cryptoNetworkSelect.innerHTML = `
+          <option value="">Select Network</option>
+          <option value="BTC Network">BTC Network</option>
+          `;
+          cryptoNetworkSelect.setAttribute('required', 'true');
+          } else if (method === 'USDT') {
+          cryptoServerContainer.classList.remove('hidden');
+          cryptoNetworkSelect.innerHTML = `
+          <option value="">Select Network</option>
+          <option value="TRC20">TRC20</option>
+          <option value="ERC20">ERC20</option>
+          `;
+          cryptoNetworkSelect.setAttribute('required', 'true');
+          } else {
+          cryptoServerContainer.classList.add('hidden');
+          cryptoNetworkSelect.innerHTML = '';
+          cryptoNetworkSelect.removeAttribute('required');
+          }
+          updateMinValue();
+          }
+
+
+          function updateMinValue() {
+          const btcmax = 50000 /<%= locals.btcRate %>;
+            const usdtmax = 50000 /<%= locals.usdtRate %>;
+              const btcmin= 500 /<%= locals.btcRate %>;
+                const usdtmin = 500 /<%= locals.usdtRate %>;
+                  const amountInput = document.getElementById('amount');
+                  switch (meth) {
+                  case 'Bank':
+                  amountInput.min = 500;
+                  amountInput.max = 50000;
+                  amountInput.placeholder = "Minimum: 500 , Maximum 50000";
+                  amountInput.step = 1;
+                  break;
+                  case 'UPI':
+                  amountInput.min = 500;
+                  amountInput.max = 50000;
+                  amountInput.placeholder = "Minimum: 500, Maximum 50000";
+                  amountInput.step = 1;
+                  break;
+                  case 'BTC':
+                  amountInput.min = btcmin.toFixed(8);
+                  amountInput.max = btcmax.toFixed(8);
+                  amountInput.placeholder = `Minimum: ${btcmin.toFixed(8)}, Maximum ${btcmax.toFixed(8)}`;
+                  amountInput.step = 0.0001;
+                  break;
+                  case 'USDT':
+                  amountInput.min = usdtmin.toFixed(3);
+                  amountInput.max = usdtmax.toFixed(3);
+                  amountInput.placeholder = `Minimum: ${usdtmin.toFixed(3)}, Maximum ${usdtmax.toFixed(3)}`;
+                  amountInput.step = 0.01;
+                  break;
+                  default:
+                  amountInput.min = 1000;
+                  amountInput.max = 100000;
+                  amountInput.placeholder = `Minimum: 1000, Maximum <%=locals.btcRate%>`;
+                    amountInput.step = 1;
+                    }
+                    }
+
+
+
+
+
+                    function updateRate() {
+                    const amountInput = document.getElementById('amount');
+                    const btcmax = 50000 /<%= locals.btcRate %>;
+                      const usdtmax = 50000 /<%= locals.usdtRate %>;
+                        const btcmin= 500 /<%= locals.btcRate %>;
+                          const usdtmin = 500 /<%= locals.usdtRate %>;
+                      console.log();
+                      
+                            if(amountInput.value < 0){
+                            amountInput.value = '';
+                            }
+                            else if(amountInput.value > 50000 && (meth=="Bank" || meth=="UPI")){
+                            amountInput.value = 50000;
+                            }
+                            else if((amountInput.value > btcmax.toFixed(8)) && meth== "BTC"){
+                            amountInput.value = btcmax;
+                            }
+                            else if(amountInput.value > usdtmax && meth== "USDT"){
+                            amountInput.value = usdtmax;
+                            }
+
+                            let amount = parseFloat(amountInput.value) || 0;
+                            let res = 0;
+                            if (meth === "BTC" && <%= locals.btcRate %>) {
+                              amount = amount * <%= locals.btcRate %>;
+                                }else if (meth === "USDT" && <%= locals.usdtRate %>) {
+                                  amount = amount * <%= locals.usdtRate %>;
+                                    }
+                                    // Check if the amount is valid
+                                    if (!isNaN(amount) && amount > 0) {
+                                    // Calculate platform fee (3%) and tax (12%)
+                                    const platformFee = 0.03;
+                                    const taxRate = 0.12;
+
+                                    // Deduct the platform fee and tax from the entered amount
+                                    const platformFeeAmount = amount * platformFee;
+                                    const taxAmount = amount * taxRate;
+                                    const totalDeductions = platformFeeAmount + taxAmount;
+                                    const amountAfterFees = amount - totalDeductions;
+
+                                    // Update fee details on the page
+                                    document.getElementById('platform-fee').textContent = platformFeeAmount.toFixed(2);
+                                    document.getElementById('tax').textContent = taxAmount.toFixed(2);
+                                    document.getElementById('total-deductions').textContent =
+                                    totalDeductions.toFixed(2);
+                                    document.getElementById('amount-after-fees').textContent =
+                                    amountAfterFees.toFixed(2);
+
+                                    // Show the fee details section
+                                    document.getElementById('fee-details').classList.remove('hidden');
+
+                                    // Construct the message with detailed fee structure
+                                    const message = `
+                                    Platform Fee (3%): ₹${platformFeeAmount.toFixed(2)}<br>
+                                    Tax (12%): ₹${taxAmount.toFixed(2)}<br>
+                                    Total Deductions: ₹${totalDeductions.toFixed(2)}<br>
+                                    Amount after deductions: ₹${amountAfterFees.toFixed(2)}<br>
+                                    `;
+
+                                    // Populate the pop-up with fee details
+                                    const feeDetails = `
+                                    <p><strong>Platform Fee (3%)</strong>: ₹${platformFeeAmount.toFixed(2)}</p>
+                                    <p><strong>Tax (12%)</strong>: ₹${taxAmount.toFixed(2)}</p>
+                                    <p><strong>Total Deductions</strong>: ₹${totalDeductions.toFixed(2)}</p>
+                                    <p><strong>Amount after deductions</strong>: ₹${amountAfterFees.toFixed(2)}</p>
+                                    `;
+                                    document.getElementById('feeDetails').innerHTML = feeDetails;
+
+                                    // Show the result depending on the selected method (BTC/USDT)
+                                    if (meth === "BTC" && <%= locals.btcRate %>) {
+                                      res = amountAfterFees * <%= locals.btcRate %>;
+                                        document.getElementById('pop-up-for-taxs').innerHTML = `
+                                        <p>For BTC: ${message}You will get: ₹${res.toFixed(2)} rs</p>
+                                        `;
+                                        document.getElementById('real_rate').style.visibility = 'visible';
+                                        openPopup();
+                                        } else if (meth === "USDT" && <%= locals.usdtRate %>) {
+                                          res = amountAfterFees * <%= locals.usdtRate %>;
+                                            document.getElementById('pop-up-for-taxs').innerHTML = `
+                                            <p>For USDT: ${message}You will get: ₹${res.toFixed(2)} rs</p>
+                                            `;
+                                            document.getElementById('real_rate').style.visibility = 'visible';
+                                            openPopup();
+                                            }
+
+                                            // Additional handling for Bank or UPI method (if necessary)
+                                            if (paymentMethod === "Bank" || paymentMethod === "UPI") {
+                                            const paymentMethodMessage = `Payment Method: ${paymentMethod}<br>`;
+                                            document.getElementById('real_rate').innerHTML += paymentMethodMessage;
+                                            }
+                                            } else {
+                                            // Hide the fee details when the amount is invalid
+                                            document.getElementById('fee-details').classList.add('hidden');
+                                            }
+
+                                            // Hide the rate when input is empty
+                                            if (amountInput.value === '') {
+                                            document.getElementById('real_rate').style.visibility = 'hidden';
+                                            }
+                                            }
+
+
+
+
+
+                                            </script>>
+                                            <!-- main end -->
+                                            <!-- footer one start -->
+                                            <%- include('../partials/footer') %>;
+
+                                              <!-- footer one end -->
+
+                                              <% if (locals.showAlert) { %>
+                                                <<script>
+                                                  window.onload = function () {
+                                                  const preloader = document.querySelector('.preloader');
+                                                  preloader.style.display = 'none';
+
+
+
+                                                  const Toast = Swal.mixin({
+                                                  toast: true,
+                                                  position: "top",
+                                                  showConfirmButton: false,
+                                                  timer: 5000,
+                                                  timerProgressBar: true,
+                                                  didOpen: (toast) => {
+                                                  toast.onmouseenter = Swal.stopTimer;
+                                                  toast.onmouseleave = Swal.resumeTimer;
+                                                  }
+                                                  });
+                                                  Toast.fire({
+                                                  icon: '<%= alertType %>',
+                                                    text: '<%= alertMessage %>',
+                                                      });
+
+                                                      };
+                                                      </script>>
+                                                      <% } %>
+
+</body>
+
+</html>

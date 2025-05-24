@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>EXCHME - Currency Exchange</title>
+  <script defer="" src="/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css"> -->
+  <link href="/styles/app.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- preloader start -->
+  <!-- <%- include('./partials/preloader') %>; -->
+  <!-- preloader end -->
+
+  <!-- scroll to top button start -->
+  <div class="scroll-to-top show" id="scrollToTop">
+    <i class="ph ph-arrow-fat-lines-up"></i>
+  </div>
+  <!-- scroll to top button end -->
+
+  <!-- header start -->
+  <%- include('./partials/header') %>;
+    <!-- header end -->
+
+
+    <!-- main start -->
+    <main class="min-h-screen">
+      <!-- sign in section start -->
+      <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+        <div class="container section-py">
+          <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p">
+            <div class="xl:col-start-1 xl:col-end-7">
+              <div class="card-1 p-32p">
+                <h3 class="text-32 text-white mb-16p">
+                  Welcome Back!
+                </h3>
+                <p class="text-base text-white mb-40p">
+                  Sign in to your account and join us
+                </p>
+                <form action="/sign-in" method="POST">
+                  <div class="grid grid-cols-6 gap-24p mb-16p">
+                    <!-- Email/Username Field -->
+                    <div class="col-span-6">
+                      <label for="emailOrUsername" class="text-18 text-white mb-16p">Enter Your Email or
+                        Username</label>
+                      <input autocomplete="off" type="text" id="emailOrUsername" name="emailOrUsername"
+                        class="box-input-5 border-glass-3" placeholder="Enter Your Email or Username..." required />
+                    </div>
+                    <!-- Password Field -->
+                    <div class="col-span-6">
+                      <label for="password" class="text-18 text-white mb-16p">Enter Your Password</label>
+                      <input autocomplete="off" type="password" id="password" name="password"
+                        class="box-input-5 border-glass-3" placeholder="Enter Your Password..." required />
+                    </div>
+                  </div>
+                  <!-- Sign Up Link -->
+                  <p class="text-base text-white mb-40p">
+                    Don’t have an account?
+                    <a href="./sign-up" class="text-primary hover:underline transition-1">
+                      Sign Up
+                    </a>
+                  </p>
+                  <div class="text-base text-white mb-40p">
+                    <a href="/forgot-password" class="text-primary hover:underline transition-1">
+                      Forgot Password?
+                    </a>
+                  </div>
+                  <!-- Submit Button -->
+                  <button type="submit" class="btn-md btn-primary">
+                    Login
+                    <i class="ph ph-arrow-right icon-20"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="xl:col-start-8 xl:col-end-13">
+              <img class="lg:max-w-[unset] animate-bounce-slow-top" src="/images/photos/authBanner.png" alt="banner" />
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      
+
+    </main>
+    <!-- main end -->
+    <%- include('./partials/footer') %>
+
+</body>
+
+</html>

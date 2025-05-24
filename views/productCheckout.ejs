@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>Exchme - Currency Exchange</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script defer="" src="/js/app.js"></script>
+  <link href="/styles/app.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+  <style>
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #2c3e50;
+      color: white;
+      font-size: 14px;
+    }
+
+    .card {
+      background-color: #2c2c2c;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin: 10px;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+      background-color: #333;
+    }
+
+    .card-header img {
+      width: 80%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-body .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .card-body .description {
+      font-size: 14px;
+      color: #bbb;
+      margin-bottom: 10px;
+    }
+
+    .card-body .income-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+    }
+
+    .checkout-section {
+      background-color: #2c2c2c;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .checkout-section h2 {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .summary-section {
+      margin-bottom: 30px;
+    }
+
+    .summary-section h3 {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .summary-item .label {
+      color: #bbb;
+      font-weight: bold;
+    }
+
+    .summary-item .value {
+      color: #3498db;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #555;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    .form-group input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .checkout-button {
+      background-color: #3498db;
+      color: white;
+      font-size: 18px;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .checkout-button:hover {
+      background-color: #2980b9;
+      /* Darker blue on hover */
+    }
+
+    /* Checkbox Styling */
+    .terms-checkbox,
+    .payment-checkbox {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .terms-checkbox label,
+    .payment-checkbox label {
+      font-size: 16px;
+      color: #bbb;
+      /* Light gray text */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .checkout-section {
+        padding: 20px;
+      }
+
+      .card {
+        max-width: 100%;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- preloader start -->
+  <%- include('./partials/preloader') %>;
+
+    <!-- preloader end -->
+
+    <!-- scroll to top button start -->
+    <div class="scroll-to-top show" id="scrollToTop">
+      <i class="ph ph-arrow-fat-lines-up"></i>
+    </div>
+    <!-- scroll to top button end -->
+    <!-- header start -->
+    <%- include('./partials/header') %>;
+      <!-- header end -->
+      <!-- main start -->
+      <main class="min-h-screen">
+        <!-- deposit section start -->
+        <main class="min-h-screen">
+          <!-- deposit section start -->
+          <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+            <div class="container section-py">
+              <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p">
+                <div class="xl:col-start-1 xl:col-end-7">
+                  <div class="card-1 p-32p">
+                    <h3 class="text-32 text-white mb-16p flex-c">Deposit for Product Purchase</h3>
+                    <!-- Payment Method Selection -->
+                    <div id="payment-method-selection">
+                      <h4 class="flex-c text-24 text-white mb-16p">Select Payment Method</h4>
+                      <ul class="text-white text-lg font-semibold mt-4">
+                        <% paymentMethods.filter(method=> !['BTC', 'ETH', 'USDT', 'DOGE', 'XRP', 'SOL',
+                          'LTC'].includes(method.method)).forEach(({ method }) => { %>
+                          <li class="mb-4 flex-c" style="margin-bottom: 24px;">
+                            <button type="button" class="btn-md btn-secondary"
+                              style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                              onclick="selectPaymentMethod('<%= method %>')">
+                              <img src="/images/payment/<%= method.toLowerCase() %>.png" alt="<%= method %>"
+                                style="width: 30px; height: 28px; margin-right: 10px;">
+                              <%= method %>
+                            </button>
+                          </li>
+                          <% }) %>
+                      </ul>
+                    </div>
+                    <img src="/upi/upi_qr.png" style="display: none;" class="flex-c hidden" id="upi_image" alt="upi"
+                      width="50%" height="15%"> <br><br>
+
+                      <!-- Sublist for Cryptocurrencies -->
+                    <div id="crypto-sublist" class="hidden">
+                      <h4 class="flex-c text-24 text-white mb-16p">Select Cryptocurrency</h4>
+                      <ul class="text-white text-lg font-semibold mt-4">
+                        <% paymentMethods.filter(method=> ['BTC', 'ETH', 'USDT', 'DOGE', 'XRP',
+                          'SOL','LTC'].includes(method.method)).forEach(({ method }) => { %>
+                          <li class=" flex-c" style="margin-bottom: 24px;">
+                            <!-- Increased spacing -->
+                            <button type="button" class="btn-md btn-secondary "
+                              style="background-color: transparent; border: 2px solid #ffffff; color: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background-color 0.3s, color 0.3s; width: 60%; display: flex; align-items: center; justify-content: center;"
+                              onclick="selectCryptoCurrency('<%= method %>')">
+                              <img src="/images/payment/<%= method.toLowerCase() %>.png" alt="<%= method %>"
+                                style="width: auto; height: 28px; margin-right: 10px;">
+                              <%= method %>
+                            </button>
+                          </li>
+                          <% }) %>
+                      </ul>
+                      <button type="button" class="btn-md btn-secondary"
+                        onclick="goBackToPaymentSelection()">Back</button>
+                    </div>
+                    <!-- Deposit Form -->
+                    <div id="deposit-form" class="hidden">
+                      <form action="/productPurchase" method="POST" enctype="multipart/form-data">
+                        <div class="grid grid-cols-6 gap-24p mb-16p">
+                          <!-- Deposit Amount Field -->
+                          <div class="col-span-6">
+                            <label for="amount" class="text-18 text-white mb-16p">Deposit Amount</label>
+                            <input autocomplete="off" type="number" id="amount" value="<%= quantity * products.package_price %>" name="amount" onkeyup="updateRate()"
+                              class="box-input-5 border-glass-3" min="0" disabled placeholder="Deposit Amount" required />
+                            <span clas="text-white" style="visibility:hidden; color: white; padding-left:24px ;"
+                              id="real_rate">0</span>
+                          </div>
+                          <div id="usdt-server-container" class="col-span-6 hidden">
+                            <label for="usdt-network" class="text-18 text-white mb-16p">Select Network</label>
+                            <select id="usdt-network" name="network" class="box-input-5 border-glass-3" required
+                              style="color: rgb(255, 255, 255); background-color: #391a56;">
+                              <option value="TRC20">TRC20</option>
+                              <option value="ERC20">ERC20</option>
+                            </select>
+                          </div>
+                          <!-- Payment Details -->
+                          <div id="payment-details" class="col-span-6 text-white"
+                            style="background-color: #1b082d; padding: 16px; border-radius: 8px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.6); max-width: 100%; position: relative;">
+                            <p id="payment-method-details" class="mb-4 text-18">
+                              <span id="wallet-address" class="hover:cursor-pointer relative"
+                                style="display: inline-block; overflow-wrap: normal; word-wrap: normal;">
+                                <!-- Dynamic Wallet Address -->
+                              </span>
+                            </p>
+                            <!-- Tooltip -->
+                            <div id="tooltip"
+                              style="position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.8); color: #fff; padding: 4px 8px; font-size: 12px; border-radius: 4px; display: none;">
+                              Click to copy
+                            </div>
+
+                            <!-- Transaction Hash Input -->
+                            <div id="wallet-hash-container" class="hidden">
+                              <input autocomplete="off" type="text" id="walletHash" name="walletHash"
+                                class="box-input-5 border-glass-3" placeholder="Your Transaction Hash"
+                                style="width: 100%;" />
+                            </div>
+                          </div>
+                          <style>
+                            @media (max-width: 768px) {
+                              #payment-details {
+                                overflow-wrap: break-word;
+                                word-wrap: break-word;
+                              }
+
+                              #wallet-address {
+                                word-wrap: break-word;
+                              }
+                            }
+                          </style>
+
+                          <!-- Upload Proof Field -->
+                          <div class="mt-4 col-span-6">
+                            <label for="proof" class="text-18 text-white mb-16p">Upload Proof (JPEG/PNG)</label>
+                            <input autocomplete="off" type="file" id="proof" name="proof" accept=".png, .jpg, .jpeg"
+                              class="box-input-5 border-glass-3" required />
+                            <small id="file-size-error" style="color: red; display: none;">File size must be less than
+                              5MB</small>
+                            <small id="file-type-error" style="color: red; display: none;">File type must png, jpg or
+                              jpeg </small>
+                          </div>
+
+                          <script>
+                            document.getElementById('proof').addEventListener('change', function (event) {
+                              const file = event.target.files[0];
+                              const maxSizeInBytes = 5 * 1024 * 1024;
+                              const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                              if (!validImageTypes.includes(file.type)) {
+                                document.getElementById('file-type-error').style.display = 'block';
+                                document.getElementById('proof').value = '';
+                              } else {
+                                document.getElementById('file-type-error').style.display = 'none';
+                              }
+                              if (file && file.size >= maxSizeInBytes) {
+                                document.getElementById('file-size-error').style.display = 'block';
+                                event.target.value = '';
+                              } else {
+                                document.getElementById('file-size-error').style.display = 'none';
+                              }
+                            });
+                          </script>
+
+
+                        </div>
+                        <!-- Hidden Input to Hold Selected Payment Method -->
+                        <input type="hidden" id="payment_method" name="payment_method" required />
+
+                        <!-- Buttons -->
+                        <div class="flex gap-4">
+                          <button type="button" class="btn-md btn-secondary"
+                            onclick="goBackToPaymentSelection()">Back</button>
+                          <button type="submit" class="btn-md btn-primary">Submit</button>
+                        </div>
+                            <input type="hidden" name="productid" value="<%= productid%>">
+                            <input type="hidden" name="quantity" id="hiddenQuantity" value="<%= quantity%>">
+                            <input type="hidden" name="total" id="hiddenTotal" value="<%= total%>">
+                            <input type="hidden" name="price_per_item" value="<%= price_per_item %>">
+                      </form>
+                    </div>
+
+
+                  </div>
+                </div>
+                <div class="xl:col-start-8 xl:col-end-13 p-32p">
+                    <div class="container section-pt" style="margin-top: 0px;">
+                      <section class="checkout-section">
+                        <!-- Product Summary -->
+                        <div class="summary-section">
+                          <h3>Your Selected Products</h3>
+                          <div class="card">
+                            <div class="card-header">
+                              <img src="/posts/<%= products.thumbnail %>" alt="<%= products.title %>" />
+                            </div>
+                            <div class="card-body">
+                              <div class="title">
+                                <%= products.title %>
+                              </div>
+                              <div class="description">
+                                <%= products.description %>
+                              </div>
+                              
+
+
+                            </div>
+                          </div>
+
+                          <div class="summary-item">
+                            <div class="label">Product Price:</div>
+                            <div class="value" id="price">₹<%= products.package_price %>
+                            </div>
+                          </div>
+                          <div class="summary-item">
+                            <div class="label">Quantity:</div>
+                            <div class="value" id="totalQuatity"><%=quantity%>
+                            </div>
+                          </div>
+                          <div class="summary-item">
+                            <div class="label">Total Amount:</div>
+                            <div class="value" id="total">₹<%= quantity * products.package_price %>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </section>
+                    </div>
+
+                 
+                </div>
+              </div>
+            </div>
+
+            <<script>
+              let pricePerProduct = <%= products.package_price %>;
+                let quantity = 1;
+                let totalPrice = 0;
+                // Function to update quantity and total price
+                function updateQuantity(change) {
+                quantity = Math.max(1, quantity + change); // Prevent quantity from going below 1
+                document.getElementById('quantity').value = quantity;
+
+                // Update total price
+                totalPrice = pricePerProduct * quantity;
+                document.getElementById('total').innerText = "₹" + <%= quantity * products.package_price %>;
+                document.getElementById('amount').value = <%= quantity * products.package_price %>;
+                document.getElementById('totalQuatity').innerText = quantity;
+                document.getElementById('amount').value = <%= quantity * products.package_price %>;
+
+                }
+
+                const paymentDetails = <%- JSON.stringify(paymentMethods.reduce((acc, { method, details })=> {
+                  acc[method] = details.split(',').join('<br>');
+                  return acc;
+                  }, {})) %>;
+                  let meth='';
+                  function selectPaymentMethod(method) {
+                  const serverSelectorContainer = document.getElementById('usdt-server-container');
+                  const networkSelector = document.getElementById('usdt-network');
+                  networkSelector.removeAttribute('required');
+                  document.getElementById('upi_image').style.display = "none";
+                  networkSelector.value = 'N/A'
+                  meth = method;
+                  document.getElementById('payment-method-details').innerHTML = `${paymentDetails[method] || `No details
+                  available for this method.`} <sl-copy-button value="${paymentDetails[method] }" copy-label="Copy !"
+                    success-label="Copied !"></sl-copy-button>`;
+                  if (method === 'UPI' ) {
+                  document.getElementById('upi_image').style.display = "block";
+                  document.getElementById('payment-details').classList.remove('hidden');
+                  document.getElementById('payment-method-details').innerHTML = `UPI Id: ${paymentDetails[method] || `No
+                  details available for this method.`} <sl-copy-button value="${paymentDetails[method] }"
+                    copy-label="Copy !" success-label="Copied !"></sl-copy-button>`;
+                  }
+                  else if (method==='Bank') {
+                  document.getElementById('upi_image').style.display = "none";
+                  document.getElementById('payment-details').classList.remove('hidden');
+                  }
+                  if (method === 'Crypto') {
+                  document.getElementById('payment-method-selection').classList.add('hidden');
+                  document.getElementById('crypto-sublist').classList.remove('hidden');
+                  } else {
+                  document.getElementById('wallet-hash-container').classList.add('hidden');
+                  document.getElementById('payment-method-selection').classList.add('hidden');
+                  document.getElementById('deposit-form').classList.remove('hidden');
+                  serverSelectorContainer.classList.add('hidden');
+                  }
+                  document.getElementById('payment_method').value = meth;
+
+                  updateMinValue();
+                  }
+
+                  function selectCryptoCurrency(crypto) {
+                  const serverSelectorContainer = document.getElementById('usdt-server-container');
+                  const networkSelector = document.getElementById('usdt-network');
+                  document.getElementById('payment-details').classList.remove('hidden');
+                  document.getElementById('payment_method').value = crypto;
+                  document.getElementById('real_rate').style.visibility = "hidden";
+
+                  if (crypto === 'USDT' || crypto === 'BTC') {
+                  serverSelectorContainer.classList.remove('hidden');
+                  networkSelector.setAttribute('required', 'true');
+
+                  if (crypto === 'BTC') {
+                  networkSelector.innerHTML = '';
+                  const btcOption = document.createElement('option');
+                  btcOption.value = 'BTC Network';
+                  btcOption.textContent = 'BTC Network';
+                  networkSelector.appendChild(btcOption);
+                  meth = 'BTC';
+
+                  } else {
+                  meth = 'USDT';
+                  networkSelector.innerHTML = `
+                  <option value="TRC20">TRC20</option>
+                  <option value="ERC20">ERC20</option>
+                  `;
+
+                  }
+                  } else {
+                  serverSelectorContainer.classList.add('hidden');
+                  networkSelector.value = '';
+                  networkSelector.removeAttribute('required');
+                  }
+                  let networkDetails = '';
+                  let selectedNetwork = networkSelector.value;
+
+                  <% network.forEach(function(element) { %>
+                    if (selectedNetwork === "<%= element.network_name %>") {
+                      networkDetails = "<%= element.network_address %>";
+                        }
+                        <% }); %>
+                          selectedNetwork = crypto === 'USDT' ? networkSelector.value : '';
+                          if(crypto === "BTC"){
+
+                          document.getElementById('payment-method-details').innerHTML = `
+                          Selected Cryptocurrency: ${crypto}<br>
+                          Network: ${networkSelector.value}<br>
+                          Address : ${paymentDetails[crypto] || ''} <sl-copy-button value="${paymentDetails[crypto] }"
+                            copy-label="Copy !" success-label="Copied !"></sl-copy-button>
+                          `
+                          }
+                          else{
+                          document.getElementById('payment-method-details').innerHTML =`
+                          Selected Cryptocurrency: ${crypto}<br>
+                          Network: ${selectedNetwork}<br>
+                          <span id="network-address">Address: ${networkDetails || 'Network address not found'}
+                            <sl-copy-button value="${networkDetails}" copy-label="Copy !"
+                              success-label="Copied !"></sl-copy-button>
+                            `
+                            }
+
+                            document.getElementById('wallet-hash-container').classList.remove('hidden');
+                            document.getElementById('crypto-sublist').classList.add('hidden');
+                            document.getElementById('deposit-form').classList.remove('hidden');
+
+                            updateMinValue();
+                            }
+
+                            function goBackToPaymentSelection() {
+                            document.getElementById('upi_image').style.display = "none";
+                            document.getElementById('real_rate').style.visibility = "hidden";
+                            document.getElementById('real_rate').innerText = ""
+                            document.getElementById('walletHash').value = ""
+                            document.getElementById('proof').value = ""
+                            document.getElementById('amount').value = <%= quantity * products.package_price %>;
+                            document.getElementById('payment-details').classList.add('hidden');
+                            document.getElementById('deposit-form').classList.add('hidden');
+                            document.getElementById('crypto-sublist').classList.add('hidden');
+                            document.getElementById('usdt-server-container').classList.add('hidden');
+                            document.getElementById('usdt-network').removeAttribute('required');
+                            document.getElementById('payment-method-selection').classList.remove('hidden');
+                            updateMinValue();
+                            }
+                            document.getElementById('usdt-network').addEventListener('change', function () {
+                            const crypto = 'USDT';
+                            const selectedNetwork = this.value;
+                            let networkDetails = '';
+
+                            <% network.forEach(function(element) { %>
+                              if (selectedNetwork === "<%= element.network_name %>") {
+                                networkDetails = "<%= element.network_address %>";
+                                  }
+                                  <% }); %>
+
+                                    document.getElementById('payment-method-details').innerHTML = `
+                                    Selected Cryptocurrency: ${crypto}<br>
+                                    Network: ${selectedNetwork}<br>
+                                    <span id="network-address">Address: ${networkDetails || 'Network address not found'}
+                                      <sl-copy-button value="${networkDetails}" copy-label="Copy !"
+                                        success-label="Copied !"></sl-copy-button>
+                                      `;
+
+                                      });
+
+                                      function updateMinValue() {
+                                      const btcRate = 100000/ <%= locals.btcRate %>;
+                                        const usdtRate = 100000/<%= locals.usdtRate %>;
+                                          const amountInput = document.getElementById('amount');
+                                          switch (meth) {
+                                          case 'Bank':
+                                          amountInput.placeholder = "Enter Amount";
+                                          amountInput.step = 1;
+                                          break;
+                                          case 'UPI':
+                                          amountInput.placeholder = "Enter Amount";
+                                          amountInput.step = 1;
+                                          break;
+                                          case 'BTC':
+                                          amountInput.min = 0.00012;
+                                          amountInput.placeholder = `Minimum: 0.00012, Maximum ${btcRate.toFixed(4)}`;
+                                          amountInput.step = 0.00001;
+                                          break;
+                                          case 'USDT':
+                                          amountInput.min = 10;
+                                          amountInput.placeholder = `Minimum: 10, Maximum ${usdtRate.toFixed(3)}`;
+                                          amountInput.step = 0.001;
+                                          break;
+                                          default:
+                                          amountInput.min = 1000;
+                                          amountInput.placeholder = `Minimum: 1000, Maximum <%=locals.btcRate%>`;
+                                            amountInput.step = 1;
+                                            }
+                                            }
+
+
+                                            function updateRate() {
+                                            const amountInput = document.getElementById('amount');
+                                            const amount=parseFloat(amountInput.value) || 0;
+                                            let res=0;
+                                            if(meth==="BTC" && <%=locals.btcRate%>){
+                                              res = amount * <%= locals.btcRate %>;
+                                                document.getElementById('real_rate').innerHTML = `You will get :
+                                                ${res.toFixed(2)} rs`;
+                                                document.getElementById('real_rate').style.visibility = 'visible';
+                                                } else if (meth == "USDT" && <%=locals.usdtRate%>){
+                                                  res = amount * <%= locals.usdtRate %>;
+                                                    document.getElementById('real_rate').innerHTML = `You will get :
+                                                    ${res.toFixed(2)} rs`;
+                                                    document.getElementById('real_rate').style.visibility = 'visible';
+                                                    }
+                                                    if(amountInput.value == ''){
+                                                    document.getElementById('real_rate').style.visibility = 'hidden';
+                                                    }
+                                                    }
+
+                                                    </script>>
+
+          </section>
+        </main>
+        <!-- main end -->
+        <!-- footer one start -->
+        <%- include('./partials/footer') %>;
+
+          <!-- footer one end -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>EXCHME - Currency Exchange</title>
+  <script defer="" src="/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
+  <link href="/styles/app.css" rel="stylesheet">
+</head>
+</head>
+
+<body>
+  <!-- preloader start -->
+  <%- include('./partials/preloader') %>
+    <!-- preloader end -->
+
+    <!-- scroll to top button start -->
+    <div class="scroll-to-top show" id="scrollToTop">
+      <i class="ph ph-arrow-fat-lines-up"></i>
+    </div>
+    <!-- scroll to top button end -->
+
+    <!-- header start -->
+    <%- include('./partials/header') %>
+      <!-- header end -->
+      <% if (locals.showAlert) { %>
+        <script>
+          window.onload = function () {
+            const preloader = document.querySelector('.preloader');
+            preloader.style.display = 'none';
+
+
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "top",
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              }
+            });
+            Toast.fire({
+              icon: '<%= alertType %>',
+              text: '<%= alertMessage %>',
+            });
+
+          };
+        </script>
+        <% } %>
+
+
+          <!-- Home one hero banner start -->
+          <section class="relative section-pt overflow-x-hidden grid-lines-1">
+            <div class="container">
+              <div class="grid xl:grid-cols-12 grid-cols-1 ">
+                <br>
+                <div class="xl:col-start-1 xxl:col-end-7 xl:col-end-8 xxl:py-[0px] section-py max-xl:pb-0 z-[5]">
+                  <span class="badge badge-circle badge-secondary mb-16p">
+                    <i class="badge badge-dot bg-white"></i>
+                    Your Best Exchange Solution
+                  </span>
+                  <h1 class="text-72 xl:leading-[96px] leading-[120%] text-white mb-24p text-split-left">
+                    The Best Currency <span class="text-highlight-1">Exchange Service</span>
+                  </h1>
+                  <p class="text-20 text-white mb-40p">
+                    Welcome to EXCHME, your ultimate destination for comprehensive currency exchange and comparisons.
+                  </p>
+                  <div class="flex-y gap-24p">
+                    <a href="./deposit" class="btn-lg btn-primary">
+                      Deposit
+                      <i class="ph ph-arrow-right icon-20"></i>
+                    </a>
+                    <a href="./withdraw" class="btn-lg btn-primary-outline">
+                      Withdraw
+                      <i class="ph ph-arrow-right icon-20"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="xxl:col-start-8 xxl:col-end-13 max-xl:section-pb z-[5]">
+                  <img class="lg:max-w-[unset] animate-bounce-slow-top xxl:pt-9" src="/images/photos/homeBanner1.png"
+                    alt="banner">
+                </div>
+              </div>
+              <br>
+            </div>
+            <div
+              class="absolute -left-[12%] bottom-[6%] xxl:size-[380px] xl:size-80 lg:size-72 md:size-60 size-40 light-effect-1">
+            </div>
+            <div
+              class="absolute -right-[12%] -top-[12%] xxl:size-[518px] xl:size-96 lg:size-80 md:size-72 size-60 light-effect-2">
+            </div>
+            <div
+              class="absolute left-0 right-0 bottom-0 home-banner-overlay w-full xxl:h-[425px] xl:h-[400px] lg:h-80 md:h-60 h-40">
+            </div>
+          </section>
+          <!-- Home one hero banner start -->
+
+          <!-- Our Journy Section Etart -->
+          <section class="section-py bg-BG-200 overflow-hidden">
+            <div class="container">
+              <div class="grid lg:grid-cols-12 items-center gap-24p">
+                <div class="lg:col-start-1 lg:col-end-6 lg:order-1 order-2">
+                  <div class="flex justify-end" data-aos="fade-up">
+                    <img class="lg:max-w-[unset] animate-bounce-slow-top" src="/images/photos/ourJourneyBanner.png"
+                      alt="Journy">
+                  </div>
+                </div>
+                <div class="xxl:col-start-7 lg:col-start-6 lg:col-end-13 order-1 lg:order-2">
+                  <div data-aos="fade-down">
+                    <span class="badge badge-circle badge-secondary mb-16p">
+                      <i class="badge badge-dot bg-white"></i>
+                      Our Journey, Our Mission, Our Values
+                    </span>
+                    <h2 class="text-40 text-white mb-24p text-split-left">
+                      We Provide Compare and Review All
+                      <span class="text-highlight-1">Currencies</span>
+                    </h2>
+                    <p class="text-base font-normal text-white mb-40p">
+                      At EXCHME, Our mission is to provide you with unbiased, comprehensive reviews, comparisons &
+                      exchanges of the currencies.
+                    </p>
+                    <div
+                      class="grid sm:grid-cols-3 grid-cols-2 gap-y-24p sm:divide-x divide-dashed divide-warning sm:text-center mb-40p">
+                      <div class="sm:text-left">
+                        <div class="flex-y justify-start gap-1 text-56 text-white mb-2">
+                          <h1 data-counter-value="999" class="odometer">0</h1>
+                          <span class=" text-warning">+</span>
+                        </div>
+                        <p class="text-18 text-white font-medium">Exchanges Completed</p>
+                      </div>
+                      <div>
+                        <div class="flex-y sm:justify-center gap-1 text-56 text-white mb-2">
+                          <h1 data-counter-value="999" class="odometer">0</h1>
+                          <span class=" text-warning">+</span>
+                        </div>
+                        <p class="text-18 text-white font-medium">Happy Users</p>
+                      </div>
+                      <div>
+                        <div class="flex-y sm:justify-center gap-1 text-56 text-white mb-2">
+                          <h1 data-counter-value="90" class="odometer">0</h1>
+                          <span class=" text-warning">% +</span>
+                        </div>
+                        <p class="text-18 text-white font-medium">User Ratings</p>
+                      </div>
+                    </div>
+                    <a href="./sign-up" class="btn-lg btn-primary">
+                      Explore More
+                      <i class="ph ph-arrow-right icon-20"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Our Journy Section End -->
+
+          <!-- Provide Services one section start -->
+          <section class="section-py overflow-hidden">
+            <div class="container">
+              <div class="flex-col-c text-center mb-60p">
+                <div class="max-w-[708px]">
+                  <span class="badge badge-circle badge-secondary mb-16p">
+                    <i class="badge badge-dot bg-white"></i>
+                    We Provide Services
+                  </span>
+                  <h2 class="text-40 text-white mb-24p text-split-top">
+                    Comprehensive Solutions
+                  </h2>
+                  <p class="text-base font-normal text-white">
+                    At EXCHME, we offer a range of services designed to meet the diverse needs of every userend.
+                  </p>
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 grid-cols-1 gap-24p">
+                <div class="">
+                  <div class="relative h-full" data-aos="zoom-in-left">
+                    <div class="relative rounded-xl bg-primary p-48p h-full 3xl:max-h-[520px]">
+                      <h3 class="text-32 text-BG-300 mb-16p text-split-left">Compare</h3>
+                      <p class="text-base text-BG-300 mb-32p">
+                        We allow users to compare the exchange rates and prices of the currencies.
+                      </p>
+                      <ul class="grid gap-3 text-base text-BG-300 font-medium *:flex-y *:gap-2 max-md:mb-32p">
+                        <li>
+                          <span class="size-2 rounded-full bg-n-900"></span>
+                          Compare
+                        </li>
+                        <li>
+                          <span class="size-2 rounded-full bg-n-900"></span>
+                          Depoist
+                        </li>
+                        <li>
+                          <span class="size-2 rounded-full bg-n-900"></span>
+                          Withdraw
+                        </li>
+                      </ul>
+                      <img
+                        class="md:absolute md:right-0 md:-bottom-[15%] lg:size-[370px] size-[280px] animate-bounce-slow-top-2"
+                        src="/images/photos/provideServiceBanner.png" alt="banner">
+                    </div>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 gap-24p">
+                  <div class="">
+                    <div class="rounded-xl bg-BG-200 p-48p border border-transparent hover:border-primary transition-1"
+                      data-aos="zoom-in-right">
+                      <div class="size-80p xl:size-[72px] bg-primary rounded-xl p-3 flex-c mb-32p">
+                        <img src="/images/icons/service1.svg" alt="">
+                      </div>
+                      <h3 class="text-32 text-white mb-16p text-split-left">Live Exchange Rates</h3>
+                      <p class="text-sm text-white">
+                        We provide the live exchange rates of the currencies that have close ot none delay.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="">
+                    <div class="rounded-xl bg-BG-200 p-48p border border-transparent hover:border-primary transition-1"
+                      data-aos="zoom-in-down">
+                      <div class="size-80p xl:size-[72px] bg-primary rounded-xl p-3 flex-c mb-32p">
+                        <img src="/images/icons/service2.svg" alt="">
+                      </div>
+                      <h3 class="text-32 text-white mb-16p text-split-left">Exchange</h3>
+                      <p class="text-sm text-white">
+                        Effortlessly exchange the currencies wtihout having any trouble or security risk.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Provide Services one section end -->
+
+          <!-- Steps Process one section start -->
+          <section class="section-py bg-BG-200 overflow-x-hidden">
+            <div class="container">
+              <div class="grid lg:grid-cols-12 grid-cols-1 gap-24p items-center mb-60p">
+                <div class="lg:col-start-1 xxl:col-end-7 lg:col-end-8" data-aos="zoom-in">
+                  <span class="badge badge-circle badge-secondary mb-16p">
+                    <i class="badge badge-dot bg-white"></i>
+                    Step-by-Step Process
+                  </span>
+                  <h2 class="text-40 text-white text-split-left">
+                    Simplifying step-by-step insight
+                  </h2>
+                </div>
+              </div>
+              <div class="grid xl:grid-cols-12 grid-cols-1 xl:gap-x-24p max-xl:gap-y-60p">
+                <div class="xl:col-span-4">
+                  <div
+                    class="sm:rounded-2xl rounded-xl p-40p bg-BG-100 text-white border border-glass-2 divide-y divide-glass-3 mb-32p">
+                    <div class="mb-32p">
+                      <h4 class="text-24 font-semibold mb-16p text-split-left">Stay Informed</h4>
+                      <p class="text-sm">
+                        Regularly check for conversion rates on news and trends. The market is highly dynamic.
+                      </p>
+                    </div>
+                    <div class="py-32p">
+                      <h4 class="text-24 font-semibold mb-16p text-split-left">Use the Comparison Tools</h4>
+                      <p class="text-sm">
+                        Take advantage of our comparison service to evaluate multiple exchanges side by side.
+                      </p>
+                    </div>
+                    <div class="pt-32p">
+                      <p class="text-sm">
+                        Don’t put all your investments into one currency.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="xl:col-span-8">
+                  <div class="grid lg:grid-cols-8 gap-24p rounded-2xl bg-primary p-48p overflow-hidden relative">
+                    <div class="lg:col-span-6 z-[5]">
+                      <h2 class="text-40 text-BG-200 mb-40p">How it works</h2>
+                      <div x-data="accordion" class="grid text-BG-200">
+                        <template x-for="(item, idx) in processAccordion.reverse()" :key="idx">
+                          <div x-data="{ id: item.id }" class="relative flex-start gap-24p"
+                            :class="{ 'last-accordion': idx === processAccordion.length - 1 }" x-ref="accordionItem"
+                            x-init="
+                           if (idx !== processAccordion.length - 1) {
+                             $el.classList.add('after:content-[\'\']', 'after:absolute', 'lg:after:left-6', 'md:after:left-5', 'sm:after:left-4', 'after:left-3', 'after:h-full', 'after:w-0.5', 'after:bg-BG-200', 'after:z-[-1]', 'pb-40p');
+                           }
+                         ">
+                            <span :class="activeAccordion == id ? 'border-BG-200' : 'border-none'"
+                              class="shrink-0 size-48p flex-c rounded-full border -mt-2">
+                              <span
+                                :class="activeAccordion == id ? 'bg-warning border-BG-200' : 'text-white bg-BG-200 border-none'"
+                                x-text="idx + 1" class="size-40p flex-c rounded-full border transition-1"></span>
+                            </span>
+                            <div @click="setActiveAccordion(id)" class="cursor-pointer">
+                              <h3 x-text="item.title" class="text-32"></h3>
+                              <div x-show="activeAccordion==id" x-collapse="">
+                                <p class="text-base pt-3" x-text="item.details"></p>
+                              </div>
+                            </div>
+                          </div>
+                        </template>
+                      </div>
+                    </div>
+                    <img class="hidden sm:block absolute xxl:w-[23.75rem] md:w-60 w-52 bottom-0 right-0"
+                      src="/images/photos/howWorksBanner.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- Steps Process one section end -->
+          <!-- testimonials one section start -->
+          <section class="section-py overflow-x-hidden relative">
+            <div class="container">
+              <div class="flex-col-c text-center mb-60p" data-aos="zoom-in">
+                <div class="max-w-[708px]">
+                  <span class="badge badge-circle badge-secondary mb-16p">
+                    <i class="badge badge-dot bg-white"></i>
+                    User Feedback
+                  </span>
+                  <h2 class="text-40 text-white mb-24p text-split-bottom">
+                    What Users Are Saying
+                  </h2>
+                  <p class="text-base font-normal text-white">
+                    Our testimonials section is filled with stories and feedback from real users.
+                  </p>
+                </div>
+              </div>
+
+              <div x-data="dataList" class="grid lg:grid-cols-3 grid-cols-1 gap-24p overflow-hidden ">
+                <div data-aos="zoom-in-left">
+                  <div
+                    class="xl:max-h-[1440px] lg:max-h-[1024px] swiper testimonials-one-carousel infinity-slide-vertical">
+                    <div class="swiper-wrapper h-auto">
+                      <template x-for="(item, idx) in testimonials.reverse()" :key="idx">
+                        <div class="swiper-slide lg:h-fit !h-auto w-full">
+                          <div
+                            class="relative group py-40p px-32p sm:rounded-xl rounded-lg bg-BG-100 hover:bg-primary text-white hover:text-BG-300 transition-1 h-full">
+                            <div
+                              class="flex items-center flex-wrap gap-16p pb-32p border-b border-dashed border-white group-hover:border-BG-300 border-opacity-30">
+                              <img class="size-60p rounded-full" :src="item.image" alt="user">
+                              <div>
+                                <h5 x-text="item.name" class="text-20 font-semibold  mb-2"></h5>
+
+                              </div>
+                            </div>
+                            <div>
+
+                              <p x-text="item.review" class="text-18  mb-32p"></p>
+                              <div class="icon-28 text-warning flex-y gap-2 mb-16p">
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                              </div>
+                              <span class="text-base  font-medium mb-1">
+                                <span x-text="item.username"
+                                  class="span font-normal text-n-40 group-hover:text-n-500 transition-1"></span>
+                              </span>
+                            </div>
+                            <svg
+                              class="absolute xl:right-8 right-5 xl:bottom-6 bottom-4 size-76p opacity-10 text-white group-hover:text-black transition-1"
+                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 76" fill="currentColor">
+                              <g>
+                                <path
+                                  d="M26.3075 35.0747H16.0766C14.8586 35.0747 13.8231 34.6485 12.9704 33.7959C12.1182 32.9432 11.6916 31.9081 11.6916 30.6897V29.2288C11.6916 26.0011 12.8336 23.2457 15.1175 20.9618C17.4013 18.6787 20.1572 17.5366 23.3846 17.5366H26.3075C27.099 17.5366 27.7838 17.2472 28.3626 16.6689C28.9411 16.0903 29.2303 15.4055 29.2303 14.6138V8.76709C29.2303 7.97554 28.9409 7.29006 28.3626 6.71144C27.784 6.13362 27.0992 5.84375 26.3075 5.84375H23.3846C20.2176 5.84375 17.1962 6.46092 14.3185 7.69351C11.4411 8.9269 8.95221 10.5941 6.85098 12.6954C4.7499 14.7956 3.08315 17.2847 1.84992 20.1624C0.616694 23.0398 0 26.062 0 29.2287V61.3817C0 63.8189 0.852173 65.8883 2.55732 67.594C4.26262 69.2989 6.33363 70.1512 8.76937 70.1512H26.3086C28.7442 70.1512 30.8145 69.2989 32.52 67.594C34.2248 65.8883 35.0775 63.8189 35.0775 61.3817V43.8441C35.0775 41.4074 34.2248 39.338 32.5189 37.632C30.8142 35.9274 28.743 35.0747 26.3075 35.0747ZM73.4438 37.632C71.7391 35.9274 69.6686 35.0747 67.2324 35.0747H57.0017C55.7843 35.0747 54.7478 34.6485 53.8966 33.7959C53.0436 32.9432 52.6178 31.9081 52.6178 30.6897V29.2288C52.6178 26.0011 53.7598 23.2457 56.0426 20.9618C58.3256 18.6787 61.0813 17.5366 64.3103 17.5366H67.2326C68.0243 17.5366 68.7096 17.2472 69.2879 16.6689C69.8659 16.0903 70.1562 15.4055 70.1562 14.6138V8.76709C70.1562 7.97554 69.866 7.29006 69.2879 6.71144C68.7097 6.13362 68.0244 5.84375 67.2326 5.84375H64.3103C61.1416 5.84375 58.1208 6.46092 55.2423 7.69351C52.3654 8.9269 49.8773 10.5941 47.7761 12.6954C45.6748 14.7956 44.0073 17.2847 42.7745 20.1624C41.5416 23.0398 40.9241 26.062 40.9241 29.2287V61.3817C40.9241 63.8189 41.7771 65.8883 43.4818 67.594C45.1866 69.2989 47.2571 70.1512 49.6932 70.1512H67.2314C69.6677 70.1512 71.738 69.2989 73.4427 67.594C75.1486 65.8883 75.9998 63.8189 75.9998 61.3817V43.8441C76 41.4072 75.1486 39.338 73.4438 37.632Z"
+                                  fill="currentColor"></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+                <div data-aos="zoom-in-down">
+                  <div class="xl:max-h-[1440px] lg:max-h-[1024px] testimonials-two-carousel infinity-slide-vertical">
+                    <div class="swiper-wrapper">
+                      <template x-for="(item, idx) in testimonials.reverse()" :key="idx">
+                        <div class="swiper-slide lg:h-fit !h-auto w-full">
+                          <div
+                            class="relative group py-40p px-32p sm:rounded-xl rounded-lg bg-BG-100 hover:bg-primary text-white hover:text-BG-300 transition-1 h-full">
+                            <div
+                              class="flex items-center flex-wrap gap-16p pb-32p border-b border-dashed border-white group-hover:border-BG-300 border-opacity-30">
+                              <img class="size-60p rounded-full" :src="item.image" alt="user">
+                              <div>
+                                <h5 x-text="item.name" class="text-20 font-semibold  mb-2"></h5>
+
+                              </div>
+                            </div>
+                            <div>
+
+                              <p x-text="item.review" class="text-18  mb-32p"></p>
+                              <div class="icon-28 text-warning flex-y gap-2 mb-16p">
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                              </div>
+                              <span class="text-base  font-medium mb-1">
+                                <span x-text="item.username"
+                                  class="span font-normal text-n-40 group-hover:text-n-500 transition-1"></span>
+                              </span>
+                            </div>
+                            <svg
+                              class="absolute xl:right-8 right-5 xl:bottom-6 bottom-4 size-76p opacity-10 text-white group-hover:text-black transition-1"
+                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 76" fill="currentColor">
+                              <g>
+                                <path
+                                  d="M26.3075 35.0747H16.0766C14.8586 35.0747 13.8231 34.6485 12.9704 33.7959C12.1182 32.9432 11.6916 31.9081 11.6916 30.6897V29.2288C11.6916 26.0011 12.8336 23.2457 15.1175 20.9618C17.4013 18.6787 20.1572 17.5366 23.3846 17.5366H26.3075C27.099 17.5366 27.7838 17.2472 28.3626 16.6689C28.9411 16.0903 29.2303 15.4055 29.2303 14.6138V8.76709C29.2303 7.97554 28.9409 7.29006 28.3626 6.71144C27.784 6.13362 27.0992 5.84375 26.3075 5.84375H23.3846C20.2176 5.84375 17.1962 6.46092 14.3185 7.69351C11.4411 8.9269 8.95221 10.5941 6.85098 12.6954C4.7499 14.7956 3.08315 17.2847 1.84992 20.1624C0.616694 23.0398 0 26.062 0 29.2287V61.3817C0 63.8189 0.852173 65.8883 2.55732 67.594C4.26262 69.2989 6.33363 70.1512 8.76937 70.1512H26.3086C28.7442 70.1512 30.8145 69.2989 32.52 67.594C34.2248 65.8883 35.0775 63.8189 35.0775 61.3817V43.8441C35.0775 41.4074 34.2248 39.338 32.5189 37.632C30.8142 35.9274 28.743 35.0747 26.3075 35.0747ZM73.4438 37.632C71.7391 35.9274 69.6686 35.0747 67.2324 35.0747H57.0017C55.7843 35.0747 54.7478 34.6485 53.8966 33.7959C53.0436 32.9432 52.6178 31.9081 52.6178 30.6897V29.2288C52.6178 26.0011 53.7598 23.2457 56.0426 20.9618C58.3256 18.6787 61.0813 17.5366 64.3103 17.5366H67.2326C68.0243 17.5366 68.7096 17.2472 69.2879 16.6689C69.8659 16.0903 70.1562 15.4055 70.1562 14.6138V8.76709C70.1562 7.97554 69.866 7.29006 69.2879 6.71144C68.7097 6.13362 68.0244 5.84375 67.2326 5.84375H64.3103C61.1416 5.84375 58.1208 6.46092 55.2423 7.69351C52.3654 8.9269 49.8773 10.5941 47.7761 12.6954C45.6748 14.7956 44.0073 17.2847 42.7745 20.1624C41.5416 23.0398 40.9241 26.062 40.9241 29.2287V61.3817C40.9241 63.8189 41.7771 65.8883 43.4818 67.594C45.1866 69.2989 47.2571 70.1512 49.6932 70.1512H67.2314C69.6677 70.1512 71.738 69.2989 73.4427 67.594C75.1486 65.8883 75.9998 63.8189 75.9998 61.3817V43.8441C76 41.4072 75.1486 39.338 73.4438 37.632Z"
+                                  fill="currentColor"></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+                <div data-aos="zoom-in-right">
+                  <div class="xl:max-h-[1440px] lg:max-h-[1024px] testimonials-three-carousel infinity-slide-vertical">
+                    <div class="swiper-wrapper">
+                      <template x-for="(item, idx) in testimonials" :key="idx">
+                        <div class="swiper-slide lg:h-fit !h-auto w-full">
+                          <div
+                            class="relative group py-40p px-32p sm:rounded-xl rounded-lg bg-BG-100 hover:bg-primary text-white hover:text-BG-300 transition-1 h-full">
+                            <div
+                              class="flex items-center flex-wrap gap-16p pb-32p border-b border-dashed border-white group-hover:border-BG-300 border-opacity-30">
+                              <img class="size-60p rounded-full" :src="item.image" alt="user">
+                              <div>
+                                <h5 x-text="item.name" class="text-20 font-semibold  mb-2"></h5>
+
+                              </div>
+                            </div>
+                            <div>
+
+                              <p x-text="item.review" class="text-18  mb-32p"></p>
+                              <div class="icon-28 text-warning flex-y gap-2 mb-16p">
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                                <i class="ph ph-star-fill"></i>
+                              </div>
+                              <span class="text-base  font-medium mb-1">
+                                <span x-text="item.username"
+                                  class="span font-normal text-n-40 group-hover:text-n-500 transition-1"></span>
+                            </div>
+                            <svg
+                              class="absolute xl:right-8 right-5 xl:bottom-6 bottom-4 size-76p opacity-10 text-white group-hover:text-black transition-1"
+                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 76" fill="currentColor">
+                              <g>
+                                <path
+                                  d="M26.3075 35.0747H16.0766C14.8586 35.0747 13.8231 34.6485 12.9704 33.7959C12.1182 32.9432 11.6916 31.9081 11.6916 30.6897V29.2288C11.6916 26.0011 12.8336 23.2457 15.1175 20.9618C17.4013 18.6787 20.1572 17.5366 23.3846 17.5366H26.3075C27.099 17.5366 27.7838 17.2472 28.3626 16.6689C28.9411 16.0903 29.2303 15.4055 29.2303 14.6138V8.76709C29.2303 7.97554 28.9409 7.29006 28.3626 6.71144C27.784 6.13362 27.0992 5.84375 26.3075 5.84375H23.3846C20.2176 5.84375 17.1962 6.46092 14.3185 7.69351C11.4411 8.9269 8.95221 10.5941 6.85098 12.6954C4.7499 14.7956 3.08315 17.2847 1.84992 20.1624C0.616694 23.0398 0 26.062 0 29.2287V61.3817C0 63.8189 0.852173 65.8883 2.55732 67.594C4.26262 69.2989 6.33363 70.1512 8.76937 70.1512H26.3086C28.7442 70.1512 30.8145 69.2989 32.52 67.594C34.2248 65.8883 35.0775 63.8189 35.0775 61.3817V43.8441C35.0775 41.4074 34.2248 39.338 32.5189 37.632C30.8142 35.9274 28.743 35.0747 26.3075 35.0747ZM73.4438 37.632C71.7391 35.9274 69.6686 35.0747 67.2324 35.0747H57.0017C55.7843 35.0747 54.7478 34.6485 53.8966 33.7959C53.0436 32.9432 52.6178 31.9081 52.6178 30.6897V29.2288C52.6178 26.0011 53.7598 23.2457 56.0426 20.9618C58.3256 18.6787 61.0813 17.5366 64.3103 17.5366H67.2326C68.0243 17.5366 68.7096 17.2472 69.2879 16.6689C69.8659 16.0903 70.1562 15.4055 70.1562 14.6138V8.76709C70.1562 7.97554 69.866 7.29006 69.2879 6.71144C68.7097 6.13362 68.0244 5.84375 67.2326 5.84375H64.3103C61.1416 5.84375 58.1208 6.46092 55.2423 7.69351C52.3654 8.9269 49.8773 10.5941 47.7761 12.6954C45.6748 14.7956 44.0073 17.2847 42.7745 20.1624C41.5416 23.0398 40.9241 26.062 40.9241 29.2287V61.3817C40.9241 63.8189 41.7771 65.8883 43.4818 67.594C45.1866 69.2989 47.2571 70.1512 49.6932 70.1512H67.2314C69.6677 70.1512 71.738 69.2989 73.4427 67.594C75.1486 65.8883 75.9998 63.8189 75.9998 61.3817V43.8441C76 41.4072 75.1486 39.338 73.4438 37.632Z"
+                                  fill="currentColor"></path>
+                              </g>
+                            </svg>
+                          </div>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:block hidden lg:absolute bottom-0 left-0 right-0 testimonials-one w-full h-[340px]"></div>
+          </section>
+          <!-- testimonials one section end -->
+
+          <section class="section-py overflow-x-hidden relative">
+            <div class="lg:block hidden lg:absolute bottom-0 left-0 right-0 testimonials-one w-full h-[340px]"></div>
+          </section>
+          </main>
+          <!-- main end -->
+
+          <!-- footer one start -->
+          <%- include('./partials/footer') %>;
+
+            <!-- footer one end -->
+
+
+
+
+</body>
+
+</html>

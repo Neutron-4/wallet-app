@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXCHME Blog Dashboard</title>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        .main-content a {
+            background-color: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .main-content a:hover {
+            background-color: #16a085;
+        }
+
+        /* Cards Container */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-body h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-body p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .edit-button {
+            background-color: #2980b9;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .edit-button:hover {
+            background-color: #3498db;
+        }
+
+        .no-posts {
+            font-size: 18px;
+            color: #e74c3c;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main-content {
+                margin-left: 200px;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <a href="/admin/dashboard">
+                <h1>EXCHME Website</h1>
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+                <li><a href="/admin/users">Users</a></li>
+                <li><a href="/admin/transactions">Transactions</a></li>
+                <li><a href="/admin/orders">Orders</a></li>
+                <li><a href="/admin/currencyrate">Currency Rate</a></li>
+                <li><a href="/admin/posts">Posts</a></li>
+                <li><a href="/admin/offers">Offers</a></li>
+                <li><a href="/admin/refferal-details">Referral Commisions</a></li>
+                <li><a href="/admin/setting">Setting</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content section-pt">
+        <a href="/admin/newoffer">Create New Offer</a>
+
+        <div class="container">
+            <% if (offers.length> 0) { %>
+                <% offers.forEach(offer=> { %>
+                    <div class="card">
+                        <!-- <div class="card-header">
+                            <img src="/posts/<%= offer.thumbnail %>" alt="<%= offer.offername %>">
+                        </div> -->
+                        <div class="card-body">
+                            <h3>
+                                <%= offer.offername %>
+                            </h3>
+                            <p>
+                                <%= offer.offedetails %>
+                            </p>
+                            <p><strong>Discount: </strong>
+                                <%= offer.percentage %>
+                            </p>
+                            <p><strong>Minimum Product : </strong>
+                                <%= offer.minimum_product %>
+                            </p>
+                            <!-- <p><strong>Start: </strong><%= offer.starting %> | <strong>Expires: </strong><%= offer.expiry_on %></p> -->
+                            <a href="/admin/editoffer/<%= offer.id %>" class="edit-button">Edit</a>
+                        </div>
+                    </div>
+                    <% }) %>
+                        <% } else { %>
+                            <p class="no-posts">There are no offers available.</p>
+                            <% } %>
+        </div>
+    </div>
+
+</body>
+
+</html>

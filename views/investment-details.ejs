@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+    <title>Exchme - Currency Exchange</title>
+    <script defer="" src="/js/app.js"></script>
+    <link href="/styles/app.css" rel="stylesheet">
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Dark theme body and layout */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 30px;
+        }
+
+        /* Wrapper for content */
+        .investment-summary {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #1F1F1F;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Investment Card styles */
+        .investment-card {
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #2C2C2C;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+        }
+
+        .investment-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #E0E0E0;
+        }
+
+        .investment-details div {
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #B0B0B0;
+        }
+
+        .investment-details div strong {
+            color: #ffffff;
+        }
+
+        /* Button styles */
+        .btn {
+            background-color: #64B5F6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #42A5F5;
+        }
+
+        /* Investment History Table styles */
+        .investment-history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .investment-history-table th,
+        .investment-history-table td {
+            padding: 15px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+
+        .investment-history-table th {
+            background-color: #2C2C2C;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        .investment-history-table td {
+            font-size: 16px;
+            color: #B0B0B0;
+        }
+
+        .investment-history-table tr:nth-child(even) {
+            background-color: #333;
+        }
+
+        .investment-history-table tr:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/preloader') %>
+        <%- include('./partials/header') %>
+            <main class="min-h-screen">
+                <section
+                    class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+                    <br><br>
+                    <div class="container section-py">
+                        <div class="investment-summary">
+                            <!-- Investment Card -->
+                            <div class="investment-card">
+                                <h3 class="flex-c">Investment </h3>
+                                <div class="investment-details">
+                                    <div><strong>Product Name:</strong>
+                                        <%= title.title%>
+                                    </div>
+                                    <div><strong>Transaction ID:</strong>
+                                        <%= order.transaction_id%>
+                                    </div>
+                                    <div><strong>Invested on:</strong>
+                                        <%=order.buy_at%>
+                                    </div>
+                                    <div><strong>Expire On:</strong>
+                                        <%=order.expiry_date%>
+                                    </div>
+                                    <div><strong>Status:</strong> <%= (new Date(order.expiry_date) < new Date()) ? "Expired" : "Active" %></div>
+                                    <div><strong>Amount Invested: ₹</strong> <%= order.amount%> </div>
+                                    <div><strong>Total Earned Till now: ₹</strong> <%= total%> </div>
+                                </div>
+                            </div>
+
+                            <!-- Investment History Table -->
+                            <table class="investment-history-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Quantity</th>
+                                        <th>Daily Income (₹)</th>
+                                        <th>Total Earned (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% logs.forEach(log=> { %>
+                                        <tr>
+
+                                            <th>
+                                                <%=log.updated_date%>
+                                            </th>
+                                            <th>
+                                                <%=order.quantity %> * ₹<%=log.daily_income %> 
+                                            </th>
+                                            <th>
+                                                <%= '₹'+(order.quantity * log.daily_income) %> <%= log.offer ? '+' + log.offer +'%': '' %>
+
+                                            </th>
+                                            <th>
+                                                ₹<%= (order.quantity * log.daily_income) + (order.quantity * log.daily_income) * (log.offer ? parseInt(log.offer) / 100 : 0) %>
+
+                                            </th>
+                                        </tr>
+
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%- include('./partials/footer') %>
+
+
+</body>
+
+</html>

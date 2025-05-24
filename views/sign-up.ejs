@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+  <title>EXCHME - Currency Exchange</title>
+  <script defer="" src="/js/app.js"></script>
+  <link href="/styles/app.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.0/dist/sweetalert2.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- preloader start -->
+  <%- include('./partials/preloader') %>
+  <!-- preloader end -->
+
+  <!-- scroll to top button start -->
+  <div class="scroll-to-top show" id="scrollToTop">
+    <i class="ph ph-arrow-fat-lines-up"></i>
+  </div>
+  <!-- scroll to top button end -->
+
+  <!-- header start -->
+  <%- include('./partials/header') %>
+  <!-- header end -->
+
+  <!-- main start -->
+  <main class="min-h-screen">
+    <!-- sign in section start -->
+    <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
+      <div class="container section-py">
+        <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p">
+          <div class="xl:col-start-1 xl:col-end-7">
+            <div class="card-1 p-32p">
+              <h3 class="text-32 text-white mb-16p">Let’s Get Started!</h3>
+              <p class="text-base text-white mb-40p">Please Enter your Details to Register</p>
+              <form action="/sign-up" method="POST">
+                <div class="grid grid-cols-6 gap-24p mb-40p">
+                  <!-- First Name -->
+                  <div class="sm:col-span-3 col-span-6">
+                    <label for="firstName" class="text-18 text-white mb-16p">First Name</label>
+                    <input autocomplete="off" type="text" id="firstName" name="firstName" class="box-input-5 border-glass-3"
+                      placeholder="First Name" required />
+                  </div>
+                  <!-- Last Name -->
+                  <div class="sm:col-span-3 col-span-6">
+                    <label for="lastName" class="text-18 text-white mb-16p">Last Name</label>
+                    <input autocomplete="off" type="text" id="lastName" name="lastName" class="box-input-5 border-glass-3"
+                      placeholder="Last Name" required />
+                  </div>
+                  <!-- Username -->
+                  <div class="col-span-6">
+                    <label for="username" class="text-18 text-white mb-16p">Username</label>
+                    <input autocomplete="off" type="text" id="username" name="username" class="box-input-5 border-glass-3"
+                      placeholder="Choose a username" required />
+                  </div>
+                  <!-- Phone -->
+                  <div class="col-span-6">
+                    <label for="phone" class="text-18 text-white mb-16p">Phone</label>
+                    <input autocomplete="off" type="number" id="phone" name="phone" class="box-input-5 border-glass-3"
+                      placeholder="Phone Number" required />
+                  </div>
+                  <!-- Email -->
+                  <div class="col-span-6">
+                    <label for="email" class="text-18 text-white mb-16p">Enter Your Email ID</label>
+                    <input autocomplete="off" type="email" id="email" name="email" class="box-input-5 border-glass-3"
+                      placeholder="Your email ID here" required />
+                  </div>
+                  <!-- Password -->
+                  <div class="col-span-6">
+                    <label for="password" class="text-18 text-white mb-16p">Password</label>
+                    <input autocomplete="off" type="password" id="password" name="password" class="box-input-5 border-glass-3"
+                      placeholder="Enter password" required />
+                  </div>
+                  <!-- Refferal code -->
+                  <div class="col-span-6">
+                    <label for="password" class="text-18 text-white mb-16p">Refferal Code (Optional)</label>
+                    <input autocomplete="off" type="text" id="refferalcode" name="refferalcode" class="box-input-5 border-glass-3"
+                      placeholder="Enter refferal code (Optional)"  />
+                  </div>
+                </div>
+                <!-- Sign-in Link -->
+                <p class="text-base text-white mb-40p">
+                  Have an account?
+                  <a href="./sign-in" class="text-primary hover:underline transition-1">Sign In</a>
+                </p>
+                <!-- Submit Button -->
+                <button type="submit" class="btn-md btn-primary">
+                  Register
+                  <i class="ph ph-arrow-right icon-20"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="xl:col-start-8 xl:col-end-13">
+            <img class="lg:max-w-[unset] animate-bounce-slow-top" src="/images/photos/authBanner.png" alt="banner" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- sign in section end -->
+
+    <!-- Display SweetAlert based on conditions
+    <% if (locals.showAlert) { %>
+      <script>
+        Swal.fire({
+          title: '<%= alertType === "error" ? "Error!" : alertType === "warning" ? "Warning!" : "Success!" %>',
+          text: '<%= alertMessage %>',
+          icon: '<%= alertType %>',
+        });
+      </script>
+    <% } %> -->
+  </main>
+  <!-- main end -->
+  <%- include('./partials/footer') %>
+</body>
+
+
+
+</html>

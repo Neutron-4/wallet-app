@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EXCHME Admin</title>
+  <link rel="stylesheet" href="/styles/admin.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      /* Center content horizontally */
+      align-items: flex-start;
+      /* Align at the top of the page */
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    /* Container for the form */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      padding: 40px;
+      box-sizing: border-box;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .blog-content {
+      margin: 0 auto;
+      /* Center the content */
+      width: 100%;
+    }
+
+    .blog-content h2 {
+      font-size: 28px;
+      color: #2c3e50;
+      text-align: center;
+      /* Center the title */
+      margin-bottom: 20px;
+      /* Add some space below the title */
+    }
+
+    .blog-form {
+      background-color: #f4f6f9;
+      padding: 20px;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      margin: 10px 0 5px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    form textarea.form-input {
+      height: 150px;
+    }
+
+    .radio-group {
+      margin-top: 10px;
+    }
+
+    .radio-group legend {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .radio-group label {
+      font-size: 14px;
+      margin-right: 20px;
+    }
+
+    .radio-input {
+      margin-right: 10px;
+    }
+
+    .thumbnail-preview {
+      margin-top: 10px;
+    }
+
+    .thumbnail-img {
+      width: 100px;
+      border-radius: 5px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .form-submit {
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-submit:hover {
+      background-color: #27ae60;
+    }
+
+
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        /* Adjust padding for smaller screens */
+      }
+
+      .blog-content h2 {
+        font-size: 24px;
+      }
+
+      .form-input,
+      form textarea.form-input {
+        padding: 12px;
+      }
+
+      .form-actions {
+        justify-content: center;
+        /* Center the submit button */
+      }
+
+      .form-submit {
+        width: 100%;
+        /* Make the button full-width on small screens */
+      }
+
+      .delete-btn {
+        width: 100%;
+        /* Make the delete button full-width on small screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .blog-content h2 {
+        font-size: 20px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+      }
+
+      .form-input,
+      form textarea.form-input {
+        font-size: 14px;
+      }
+
+      .form-submit {
+        font-size: 14px;
+      }
+
+      .delete-btn {
+        font-size: 14px;
+      }
+    }
+
+    /* Delete Button Container */
+    .delete-form {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* Delete Button Styling */
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar - Already implemented in background, no CSS needed here -->
+  <div class="sidebar">
+    <div class="brand">
+      <a href="/admin/dashboard">
+        <h1>EXCHME Website</h1>
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/transactions">Transactions</a></li>
+        <li><a href="/admin/orders">Orders</a></li>
+        <li><a href="/admin/currencyrate">Currency Rate</a></li>
+        <li><a href="/admin/posts">Posts</a></li>
+        <li><a href="/admin/offers">Offers</a></li>
+        <li><a href="/admin/refferal-details">Referral Commisions</a></li>
+        <li><a href="/admin/setting">Setting</a></li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content section-pt">
+    <h2>
+      <%= blog ? 'Edit Post' : 'Create New Post' %>
+    </h2>
+    <div class="container">
+      <form action="<%= blog ? '/admin/post/' + blog.blogid : '/admin/post' %>" method="POST"
+        enctype="multipart/form-data" class="blog-form">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" name="title" value="<%= blog ? blog.title : '' %>" placeholder="Enter title..." required
+            class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea name="description" placeholder="Enter description..." required
+            class="form-input"><%= blog ? blog.description : '' %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="thumbnail">Thumbnail</label>
+          <input type="file" name="thumbnail" class="form-input">
+        </div>
+
+        <% if (blog && blog.thumbnail) { %>
+          <div class="thumbnail-preview">
+            <p>Current Thumbnail:</p>
+            <img src="/posts/<%= blog.thumbnail %>" alt="Current Thumbnail" class="thumbnail-img">
+          </div>
+          <% } %>
+
+            <div class="form-group">
+              <label for="dailyIncome">Daily Income</label>
+              <input type="number" id="dailyIncome" value="<%= blog ? blog.daily_income : '' %>"
+                placeholder="Daily Income... ex:- 500" name="dailyIncome" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="monthlyIncome">Monthly Income</label>
+              <input type="number" id="monthlyIncome" value="<%= blog ? blog.monthly_income : '' %>"
+                placeholder="Monthly Income... ex:- 500" name="monthlyIncome" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="yearlyIncome">Yearly Income</label>
+              <input type="number" id="yearlyIncome" value="<%= blog ? blog.yearly_income : '' %>"
+                placeholder="Yearly Income... ex:- 500" name="yearlyIncome" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="packPrice">Package Price</label>
+              <input type="number" id="packPrice" value="<%= blog ? blog.package_price : '' %>"
+                placeholder="Package Price ? ex:- 1200" name="packPrice" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="investmentType">Investment Type</label>
+              <select name="investmentType" id="investmentType" required>
+                <option value="dailyIncome" <%=blog && blog.category==='dailyIncome' ? 'selected' : '' %>>Daily Income
+                </option>
+                <option value="realEstate" <%=blog && blog.category==='realEstate' ? 'selected' : '' %>>Real Estate
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group radio-group">
+              <legend>Is Public ?</legend>
+              <label for="visibility-yes">Yes</label>
+              <input type="radio" name="visible" value="yes" id="visibility-yes" <%=blog && blog.ispublic===1
+                ? 'checked' : '' %> required class="radio-input">
+
+              <label for="visibility-no">No</label>
+              <input type="radio" name="visible" value="no" id="visibility-no" <%=blog && blog.ispublic !==1 ? 'checked'
+                : '' %> required class="radio-input">
+            </div>
+
+            <div class="form-group">
+              <label for="dailyIncome">Offer</label> 
+              <select name="offer" id="offer">
+                <option value="none">None</option>
+              
+                <% offers.forEach(offer=> { %>
+                  
+                  <option  <%=blog && parseInt(blog.appliedOffer) === parseInt(offer.id) ? 'selected' : '' %> value="<%=offer.id%>"><%=offer.offername%>  -  ( <%=offer.percentage%>% )</option>
+                  <% }) %>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="form-submit">
+                <%= blog ? 'Update Post' : 'Publish' %>
+              </button>
+            </div>
+
+            <!-- Only show the Delete button if we are editing an existing blog post -->
+      </form>
+      <% if (blog) { %>
+        <div class="delete-form">
+          <form action="/admin/post/delete/<%= blog.blogid %>" method="POST">
+            <button type="submit" class="delete-btn">
+              <i class="fas fa-trash-alt"></i> Delete Post
+            </button>
+          </form>
+        </div>
+        <% } %>
+    </div>
+  </div>
+
+</body>
+
+</html>

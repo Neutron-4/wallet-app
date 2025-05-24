@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./images/icons/logo.png" type="image/x-icon">
+    <title>Exchme - Currency Exchange</title>
+    <script defer="" src="/js/app.js"></script>
+    <link href="/styles/app.css" rel="stylesheet">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Status Badge Styles */
+        .transaction-status {
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: capitalize;
+            color: #fff;
+            display: inline-block;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .transaction-status-complete{
+            background-color: #28a745;
+            border-color: #1c7c32;
+        }
+
+        .transaction-status-denied {
+            background-color: #dc3545;
+            border-color: #b32d3e;
+        }
+
+        .transaction-status-pending {
+            background-color: #ffc107;
+            border-color: #d69f29;
+        }
+
+        /* Hover Effects */
+        .transaction-status:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Table Container and Styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1e1e1e;
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        table th,
+        table td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        table th {
+            background-color: #333;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background-color: #444;
+            cursor: pointer;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff5722;
+            color: #fff;
+            border-radius: 50%;
+            padding: 15px;
+            font-size: 20px;
+            display: none;
+            cursor: pointer;
+        }
+
+        .scroll-to-top.show {
+            display: block;
+        }
+
+        /* Section and Card Styles */
+        .section-pt {
+            padding-top: 100px;
+            background-color: #1f1f1f;
+        }
+
+        .section-py {
+            padding: 60px 30px;
+        }
+
+        .card-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-1 {
+            background-color: #2c2c2c;
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-1 h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        /* Dropdown Styles */
+        select {
+            padding: 10px 15px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            width: 200px;
+            font-size: 16px;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #ccc;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card-1 {
+                padding: 20px;
+            }
+
+            select {
+                width: 100%;
+                font-size: 14px;
+            }
+        }
+
+        /* Table Styling */
+        table th,
+        table td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        table th {
+            background-color: #333;
+            font-weight: bold;
+        }
+
+        /* Fixed width for all columns */
+        table th:nth-child(1),
+        table td:nth-child(1) {
+            /* Product */
+            width: 200px;
+            /* Fixed width for 'Product' */
+            white-space: nowrap;
+            /* Prevent text wrapping */
+            overflow: hidden;
+            /* Hide overflowing text */
+            text-overflow: ellipsis;
+            /* Display ellipsis for overflowed text */
+        }
+
+        table th:nth-child(2),
+        table td:nth-child(2) {
+            /* Status */
+            width: 150px;
+            /* Fixed width for 'Status' */
+        }
+
+        table th:nth-child(3),
+        table td:nth-child(3) {
+            /* Invested Date */
+            width: 180px;
+            /* Fixed width for 'Invested Date' */
+        }
+
+        table th:nth-child(4),
+        table td:nth-child(4) {
+            /* Expiry Date */
+            width: 180px;
+            /* Fixed width for 'Expire on' */
+        }
+
+        /* Add hover effects */
+        table tr:hover {
+            background-color: #444;
+            transform: translateY(-4px);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Preloader start -->
+    <%- include('./partials/preloader') %>
+        <!-- Preloader end -->
+
+        <!-- Scroll to top button start -->
+        <div class="scroll-to-top show" id="scrollToTop">
+            <i class="ph ph-arrow-fat-lines-up"></i>
+        </div>
+        <!-- Scroll to top button end -->
+
+        <!-- Header start -->
+        <%- include('./partials/header') %>
+            <!-- Header end -->
+
+            <main class="min-h-screen">
+                <section class="section-pt overflow-hidden bg-no-repeat bg-cover">
+                    <br><br><br>
+                    <div class="container section-py">
+                        <div class="card-container">
+                            <!-- Card 1 -->
+                            <div class="card-1">
+                                <h2>My Investments</h2>
+
+                                <!-- Status Filter Dropdown -->
+                                
+                                <% if (investment.length> 0) { %>
+                                    <span for="filterby">Filter By:</span><select id="statusFilter" onchange="filterTable()">
+                                        <option value="">All Status</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Complete">Complete</option>
+                                        <option value="Denied">Denied</option>
+                                    </select>
+                                    <div class="table-container">
+                                        <table id="investmentTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Status</th>
+                                                    <th>Invested Date</th>
+                                                    <th>Expire on</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% investment.forEach(product=> { %>
+                                                    <tr class="<%= product.status.toLowerCase() %>"
+                                                        onclick="window.location.href='/investment-details/<%= product.transaction_id %>'">
+                                                        <!-- Product Title -->
+                                                        <td>
+                                                            <%= product.title %>
+                                                        </td>
+
+                                                        <!-- Status -->
+                                                        <td>
+                                                            <span
+                                                                class="transaction-status transaction-status-<%= product.status.toLowerCase() %>">
+                                                                <%= product.status %>
+                                                            </span>
+                                                        </td>
+
+                                                        <!-- Invested Date -->
+                                                        <td>
+                                                            <%= product.uploaded_date %>
+                                                        </td>
+
+                                                        <!-- Expiry Date -->
+                                                        <td>
+                                                            <%= product.expiry_date %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <% } else { %>
+                                        <p class="message">You haven't made any investments yet.</p>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer start -->
+            <%- include('./partials/footer') %>
+                <!-- Footer end -->
+
+                <script>
+                    // JavaScript function to filter the table based on selected status
+                    function filterTable() {
+                        var filterValue = document.getElementById("statusFilter").value.toLowerCase();
+                        var rows = document.querySelectorAll("#investmentTable tbody tr");
+
+                        rows.forEach(function (row) {
+                            var statusCell = row.cells[1]; // The 'Status' column is the 2nd one (index 1)
+                            var statusText = statusCell.textContent.toLowerCase().trim();
+
+                            if (filterValue === "" || statusText === filterValue) {
+                                row.style.display = "";  // Show row
+                            } else {
+                                row.style.display = "none";  // Hide row
+                            }
+                        });
+                    }
+
+                    // Scroll to top functionality
+                    document.getElementById("scrollToTop").addEventListener("click", function () {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    });
+                </script>
+
+</body>
+
+</html>

@@ -1,0 +1,329 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-color: #f4f4f4;
+  }
+
+  .brand a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .brand a:hover {
+    text-decoration: none;
+  }
+  /* Sidebar */
+.sidebar {
+  width: 250px;
+  background: #345bd1;
+  color: white;
+  min-height: 100vh;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+/* Brand or Logo Section */
+.sidebar .brand {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Sidebar Menu List */
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+  padding: 12px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Sidebar List Item Hover Effect */
+.sidebar ul li:hover {
+  background: #2a4ca3;
+}
+
+/* Sidebar Links */
+.sidebar nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: normal;
+  padding: 10px 15px;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+/* Active Link */
+.sidebar nav ul li a.active {
+  background-color: #333;
+}
+
+/* Hover Effect on Links */
+.sidebar nav ul li a:hover {
+  background-color: #444;
+}
+
+/* Hamburger Menu Button for Mobile */
+.sidebar-toggle {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+}
+
+/* Handling text overflow and maintaining readability */
+.sidebar ul li a {
+  overflow: hidden;
+  text-overflow: ellipsis;  /* Ensures text that doesn't fit will be truncated */
+  white-space: nowrap;  /* Prevents text from wrapping */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  /* Hide the sidebar on smaller screens */
+  .sidebar {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
+  }
+
+  /* Display the hamburger menu */
+  .sidebar-toggle {
+      display: block;
+  }
+
+  /* When sidebar is expanded, show the sidebar */
+  .sidebar.active {
+      width: 250px;
+      padding: 15px;
+  }
+
+  /* Adjust brand and list items for mobile */
+  .sidebar .brand {
+      font-size: 18px;
+  }
+
+  .sidebar ul li {
+      padding: 10px 15px;
+  }
+}
+
+/* On even smaller screens, reduce the sidebar width further */
+@media (max-width: 480px) {
+  .sidebar {
+      width: 200px;
+  }
+
+  .sidebar ul li {
+      padding: 8px 10px;
+  }
+
+  .sidebar .brand {
+      font-size: 16px;
+  }
+}
+
+
+  .main-content {
+    margin-left: 270px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  .blog-content{
+    padding: 20px;
+    display: flex;
+    margin: auto;
+  }
+  
+  header h2 {
+    margin-bottom: 20px;
+  }
+  
+  .cards {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .card {
+    background: #f5f5f5;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  .payment-methods-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .payment-methods-section h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+  }
+  
+  .payment-method {
+    margin-bottom: 15px;
+  }
+  
+  .payment-method h4 {
+    color: #333;
+    font-size: 1.1em;
+  }
+  
+  .payment-method textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-top: 8px;
+  }
+  
+  .save-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .save-button:hover {
+    background-color: #0056b3;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  form {
+    display: inline;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="number"],
+  select {
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 20px);
+  }
+  
+  button, .logout-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px 0;
+  }
+  
+  button:hover,
+  .logout-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .logout-button {
+    background-color: #dc3545;
+  }
+  
+  .logout-button:hover {
+    background-color: #c82333;
+  }
+  
+  .status-update-form {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .status-update-form select {
+    margin-right: 20px;
+  }
+
+  
+  .close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover,
+  .close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  
+  .payment-method textarea,.network-address textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-top: 8px;
+  }
+  
+  button.save-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button.save-button:hover {
+    background-color: #218838;
+  }
+  

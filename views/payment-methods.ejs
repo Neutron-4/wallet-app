@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Methods</title>
+  <link rel="stylesheet" href="/styles/admin.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="brand">
+      <a href="/admin/dashboard">
+        <h1>EXCHME Website</h1>
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/transactions">Transactions</a></li>
+        <li><a href="/admin/orders">Orders</a></li>
+        <li><a href="/admin/currencyrate">Currency Rate</a></li>
+        <li><a href="/admin/posts">Posts</a></li>
+        <li><a href="/admin/offers">Offers</a></li>
+        <li><a href="/admin/refferal-details">Referral Commisions</a></li>
+        <li><a href="/admin/setting">Setting</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h2>Payment Methods</h2>
+    </header>
+
+    <section class="payment-methods-section">
+      <form action="/admin/update-payment-methods" enctype="multipart/form-data" method="POST"
+        class="payment-methods-form">
+        <% paymentMethods.forEach(method=> { %>
+          <% if (method.method !=='Crypto' && method.method !=='USDT' ) { %>
+            <div class="payment-method">
+              <label for="details_<%= method.method %>">
+                <%= method.method %>
+              </label>
+              <textarea id="details_<%= method.method %>" name="details_<%= method.method %>" rows="3"
+                required><%= method.details %></textarea>
+            </div>
+            <% } %>
+              <% }) %>
+
+
+                <% network.forEach(networks=> { %>
+                  <div class="network-address">
+                    <label for="info<%= networks.network_name %>">
+                      <%= networks.network_name %>
+                    </label>
+                    <textarea id="info<%= networks.network_name %>" name="info<%= networks.network_name %>" rows="3"
+                      required><%= networks.network_address %></textarea>
+                  </div>
+                  <% }) %>
+                    <input type="file" name="upi_qr" id="upi_qr" accept="image/jpeg, image/png">
+                    <button type="submit" class="save-button">Save Changes</button>
+      </form>
+    </section>
+  </div>
+</body>
+
+</html>

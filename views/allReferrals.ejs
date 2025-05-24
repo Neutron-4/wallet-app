@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referrals</title>
+  <link rel="stylesheet" href="/styles/admin.css">
+  <style>
+
+    /* Body and Layout */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex-grow: 1;
+      padding: 30px;
+      background-color: #fff;
+      min-height: 100vh;
+    }
+
+    .main-content header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .main-content header h2 {
+      font-size: 28px;
+      color: #333;
+    }
+
+    .button-container .view-all-btn {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .button-container .view-all-btn:hover {
+      background-color: #2980b9;
+    }
+
+    /* Search Bar and Pagination Styles */
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-container input {
+      padding: 8px;
+      font-size: 16px;
+      margin-right: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .search-container button {
+      padding: 8px 15px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .search-container button:hover {
+      background-color: #2980b9;
+    }
+
+    .clear-search-btn {
+      background: transparent;
+      border: none;
+      color: #3498db;
+      cursor: pointer;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+
+    .clear-search-btn:hover {
+      color: #2980b9;
+    }
+
+    .pagination {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .pagination button {
+      padding: 8px 15px;
+      margin: 0 5px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th,
+    table td {
+      padding: 12px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: #f1f1f1;
+      color: #333;
+      font-weight: bold;
+    }
+
+    table td {
+      background-color: #fff;
+      color: #555;
+    }
+
+    table tr:nth-child(even) td {
+      background-color: #f9f9f9;
+    }
+
+    table tr:hover td {
+      background-color: #f1f1f1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+        padding: 15px;
+      }
+
+      .sidebar .brand h1 {
+        font-size: 20px;
+      }
+
+      .sidebar nav ul li {
+        margin-bottom: 15px;
+      }
+
+      .sidebar nav ul li a {
+        font-size: 16px;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .main-content header h2 {
+        font-size: 24px;
+      }
+
+      .button-container .view-all-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      table th,
+      table td {
+        padding: 8px;
+      }
+
+      table th {
+        font-size: 14px;
+      }
+
+      table td {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 100%;
+        padding: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        height: 100%;
+        display: block;
+      }
+
+      .sidebar nav ul {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar nav ul li {
+        margin-bottom: 10px;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 60px;
+      }
+
+      .main-content header h2 {
+        font-size: 20px;
+      }
+
+      .button-container .view-all-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="brand">
+      <a href="/admin/dashboard">
+        <h1>EXCHME Website</h1>
+      </a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/admin/update-payment-methods">Payment Methods</a></li>
+        <li><a href="/admin/users">Users</a></li>
+        <li><a href="/admin/transactions">Transactions</a></li>
+        <li><a href="/admin/orders">Orders</a></li>
+        <li><a href="/admin/currencyrate">Currency Rate</a></li>
+        <li><a href="/admin/posts">Posts</a></li>
+        <li><a href="/admin/offers">Offers</a></li>
+        <li><a href="/admin/refferal-details">Referral Commissions</a></li>
+        <li><a href="/admin/setting">Setting</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <h2>Referrals</h2>
+      <div class="button-container">
+        <a href="/admin/all-referrals" class="view-all-btn">View All Referrals</a>
+      </div>
+    </header>
+
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search by username, email, or referral code"
+        value="<%= searchQuery || '' %>">
+      <button id="search-btn">Search</button>
+      <% if (searchQuery) { %>
+      <button id="clear-search-btn" class="clear-search-btn">✖</button>
+      <% } %>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Referral Code</th>
+          <th>Referred By</th>
+          <th>Total Referrals</th>
+          <th>Total Verified Referrals</th>
+        </tr>
+      </thead>
+      <tbody id="referral-body">
+        <% if (refferls.length > 0) { %>
+          <% refferls.forEach((ref) => { %>
+            <tr id="row-<%= ref.id %>-<%= ref.username %>">
+              <td><%= ref.username %></td>
+              <td><%= ref.email || 'N/A' %></td>
+              <td><%= ref.referral_code || '-' %></td>
+              <td><%= ref.refer_by || '-' %></td>
+              <td><%= ref.totalRef || '0' %></td>
+              <td><%= ref.totalVerifiedRef || '0' %></td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6">No referrals found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button id="prev-btn" disabled>Prev</button> 
+      <button id="next-btn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('search-btn').addEventListener('click', function () {
+      const searchValue = document.getElementById('search-input').value;
+      window.location.href = `/admin/all-referrals?page=1&search=${searchValue}`;
+    });
+
+    document.getElementById('clear-search-btn')?.addEventListener('click', function () {
+      window.location.href = `/admin/all-referrals?page=1&search=`;
+    });
+
+    // Pagination logic
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentPage = parseInt(urlParams.get('page')) || 1;
+    let searchQuery = urlParams.get('search') || '';
+
+    // Update buttons' state based on current page
+    document.getElementById('prev-btn').disabled = currentPage <= 1;
+    
+    document.getElementById('prev-btn').addEventListener('click', function() {
+      if (currentPage > 1) {
+        window.location.href = `/admin/all-referrals?page=${currentPage - 1}&search=${searchQuery}`;
+      }
+    });
+
+    document.getElementById('next-btn').addEventListener('click', function() {
+      window.location.href = `/admin/all-referrals?page=${currentPage + 1}&search=${searchQuery}`;
+    });
+  </script>
+
+</body>
+
+</html>
