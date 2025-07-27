@@ -12,7 +12,7 @@
               </a>
               <!-- Mega Menu Start -->
               <div x-data="{ open: false }" class="group">
-                <button @click="window.location.href = '/deposit'; open = !open"
+                <button @click="window.location.href = './deposit'; open = !open"
                   class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
                   <span class="flex justify-center items-center icon-24">
                     <i class="ph ph-squares-four"></i>
@@ -21,7 +21,7 @@
                 </button>
               </div>
               <div x-data="{ open: false }" class="group">
-                <button @click="window.location.href = '/withdraw'; open = !open"
+                <button @click="window.location.href = './withdraw'; open = !open"
                   class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
                   <span class="flex justify-center items-center icon-24">
                     <i class="ph ph-squares-four"></i>
@@ -30,7 +30,7 @@
                 </button>
               </div>
               <div x-data="{ open: false }" class="group">
-                <button @click="window.location.href = '/daily-income'; open = !open"
+                <button @click="window.location.href = './daily-income'; open = !open"
                   class="btn-md btn-secondary-2 group whitespace-nowrap md:flex hidden">
                   <span class="flex justify-center items-center icon-24">
                     <i class="ph ph-squares-four"></i>
@@ -39,7 +39,7 @@
                 </button>
               </div>
               <!-- Mega Menu End -->
-              <!-- <div class="xxl:block hidden">
+              <div class="xxl:block hidden">
                 <ul class="menus">
                   <li class="submenu group">
                     <span class="submenu-btn">More</span>
@@ -56,7 +56,7 @@
                     </ul>
                   </li>
                 </ul>
-              </div> -->
+              </div>
             </div>
             <div class="flex items-center xxl:gap-24p gap-20p relative">
               <!-- Balance Button (only shown if user is logged in) -->
@@ -71,19 +71,16 @@
                   <!-- Dropdown Content -->
                   <div x-show="open" @click.away="open = false"
                     class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 py-2 text-black">
-                    <div class="px-4 py-2 text-sm text-gray-800 text-black">
+                    <div class="px-4 py-2 text-sm text-gray-800">
                       <strong>Balance: </strong>
-                      <%= locals.balance !==null ? locals.balance.toFixed(2) : '0' %> <br>
+                      <%= locals.balance !==null ? locals.balance : '0' %> <br>
                       <strong>BTC: </strong>
-                      <%= locals.btcBalance !==null ? locals.btcBalance.toFixed(8) : '0' %> <br>
+                      <%= locals.btcBalance !==null ? locals.btcBalance.toFixed(4) : '0' %> <br>
                       <strong>USDT: </strong>
-                      <%= locals.usdtBalance !==null ? locals.usdtBalance.toFixed(4) : '0' %>
+                      <%= locals.usdtBalance !==null ? locals.usdtBalance.toFixed(3) : '0' %>
                       
                     </div>
                     <hr class="border-gray-200">
-                    <a href="/myinvestments" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                      My Investments
-                    </a>
                     <a href="/mytransactions" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
                       My Transactions
                     </a>
@@ -105,7 +102,7 @@
                         <% if (locals.userName) { %>
                           <span><%=locals.userName%></span>
                         <% } else {%>
-                        <span><%=locals.userName%></span>
+                        <span>User<%=locals.userName%> this</span>
                         <% }%>
 
                         <i class="ph ph-caret-down"></i>
@@ -119,9 +116,6 @@
                           
                         </div>
                         <hr class="border-gray-200">
-                        <a href="/myinvestment" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
-                          My Investments
-                        </a>
                         <a href="/mytransactions" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">
                           My Transactions
                         </a>
@@ -136,12 +130,12 @@
                     <% } %>
 
                       <!-- Conditional Buttons -->
-                      <% if (!locals.userEmail || !userEmail) { %>
-                        <a href="/sign-in" class="btn-lg btn-primary shrink-0">
+                      <% if (!locals.userEmail) { %>
+                        <a href="./sign-in" class="btn-lg btn-primary shrink-0">
                           Sign In
                           <i class="ph ph-arrow-right icon-20"></i>
                         </a>
-                        <a href="/sign-up" class="btn-lg btn-primary shrink-0">
+                        <a href="./sign-up" class="btn-lg btn-primary shrink-0">
                           Sign Up
                           <i class="ph ph-arrow-right icon-20"></i>
                         </a>
@@ -172,23 +166,22 @@
                               </div>
                               <ul class="flex flex-col justify-center items-start gap-5 text-white">
                                 <li class="mobail-menu">
-                                  <a href="/">Home</a>
+                                  <a href="#">Home</a>
                                 </li>
                                 <li class="mobail-menu">
-                                  <a href="/deposit">Deposit</a>
+                                  <a href="./deposit">Deposit</a>
                                 </li>
                                 <li class="mobail-menu">
-                                  <a href="/withdraw">Withdraw</a>
+                                  <a href="./withdraw">Withdraw</a>
                                 </li>
                                 <li class="mobail-menu">
-                                  <a href="/daily-income">Daily Income</a>
+                                  <a href="./daily-income">Daily Income</a>
                                 </li>
                                 <!-- Conditional User Sub-menu for Mobile -->
                                 <% if (locals.userEmail) { %>
                                   <li class="sub-menu mobail-submenu">
                                     <span class="mobail-submenu-btn">
-                                      <span class="text-xl submenu-btn"><%= locals.userName ? locals.userName : 'User' %>
-                                      </span>
+                                      <span class="text-xl submenu-btn">User</span>
                                       <span class="collapse-icon mobail-submenu-icon">
                                         <i class="ph ph-caret-down"></i>
                                       </span>
@@ -205,28 +198,8 @@
                                             <%= locals.balance.toFixed(2) %>
                                           </div>
                                           <% } %>
-                                          <% if (locals.btcBalance !==null) { %>
-                                            <div>
-                                              <strong>BTC Balance:</strong>
-                                              <%= locals.btcBalance.toFixed(8) %>
-                                            </div>
-                                            <% } %>
-                                            <% if (locals.usdtBalance !==null) { %>
-                                              <div>
-                                                <strong>USDT Balance:</strong>
-                                                <%= locals.usdtBalance.toFixed(4) %>
-                                              </div>
-                                              <% } %>
                                       </div>
                                       <li>
-                                        
-                                        <a aria-label="item" class="text-18 hover:text-primary transition-1"
-                                          href="/myinvestment">
-                                          - My Investments
-                                        </a>
-                                      </li>
-                                      <li>
-                                        
                                         <a aria-label="item" class="text-18 hover:text-primary transition-1"
                                           href="/mytransactions">
                                           - My Transaction
@@ -258,7 +231,7 @@
                                       <ul class="grid gap-y-2 px-16p">
                                         <li>
                                           <a aria-label="item" class="text-18 hover:text-primary transition-1"
-                                            href="../faqs">
+                                            href="../faq">
                                             - FAQ
                                           </a>
                                         </li>

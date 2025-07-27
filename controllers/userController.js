@@ -1008,7 +1008,7 @@ const refferal = (req, res) => {
                 }
 
 
-                res.render('refferal', { refLevel: level, totalref: ref.totalRef, userEmail, userName: req.session.username, balance: user.balance, usdtBalance: user.usdtBalance, btcBalance: user.btcBalance, referral_code: user.referral_code });
+                res.render('refferal', { refLevel: level, totalref : ref.totalRef, userEmail, userName: req.session.username, balance: user.balance, usdtBalance: user.usdtBalance, btcBalance: user.btcBalance, referral_code: user.referral_code });
             });
         });
     }

@@ -9,83 +9,8 @@
   <script defer="" src="/js/app.js"></script>
   <link href="/styles/app.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/themes/light.css" />
-  <script type="module"
-    src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.19.0/cdn/shoelace-autoloader.js"></script>
 
-  <style>
-    #fee-details {
-      background-color: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-      padding: 16px;
-      margin-top: 16px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    #fee-details div {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    #fee-details span {
-      font-size: 16px;
-    }
-
-    #fee-details .font-bold {
-      font-weight: bold;
-    }
-
-    #real_rate {
-      visibility: hidden;
-      font-size: 14px;
-      color: #ccc;
-    }
-
-
-    /* Popup Styles */
-    .pop-up-for-taxs {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      text-align: left;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: #fff;
-    }
-
-    h3 {
-      margin-top: 0;
-    }
-
-    .popup-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #007BFF;
-      color: white;
-    }
-
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-  </style>
 </head>
 
 <body>
@@ -111,18 +36,7 @@
 
         <!-- Withdraw section start -->
         <main class="min-h-screen">
-          <br><br>
-          <div id="pop-up-for-taxs" class="pop-up-for-taxs">
-            <h3>Fee and Tax Details</h3>
-            <div id="feeDetails"></div>
-            <label>
-              <input type="checkbox" id="agreeCheckbox" /> I agree with the terms and conditions.
-            </label>
-            <div class="popup-buttons">
-              <button id="submitBtn">Submit</button>
-              <button id="cancelBtn">Cancel</button>
-            </div>
-          </div>
+
           <section class="section-pt overflow-hidden bg-[url('../images/photos/authBG.png')] bg-no-repeat bg-cover">
             <div class="container section-py">
               <div class="grid xl:grid-cols-12 lg:grid-cols-2 grid-cols-1 items-center gap-x-24p gap-y-60p">
@@ -193,26 +107,9 @@
                             <input autocomplete="off" type="number" id="amount" name="amount" onkeyup="updateRate()"
                               class="box-input-5 border-glass-3" placeholder="Enter Withdraw Amount" required />
                             <span clas="text-white" style="visibility:hidden; color: white; padding-left:24px ;"
-                              id="real_rate"></span>
-
-                            <!-- Fees and Deductions Display Section -->
-                            <div id="fee-details" class="mt-4 text-white hidden">
-                              <div class="mb-2">
-                                <span class="text-lg">Platform Fee (3%):</span> <span id="platform-fee"></span>
-                              </div>
-                              <div class="mb-2">
-                                <span class="text-lg">Tax (12%):</span> <span id="tax"></span>
-                              </div>
-                              <div class="mb-2 font-bold">
-                                <span class="text-lg">Total Deductions:</span> <span id="total-deductions"></span>
-                              </div>
-                              <div class="mb-2 font-bold">
-                                <span class="text-lg">Amount after Deductions:</span> <span
-                                  id="amount-after-fees"></span>
-                              </div>
-                            </div>
+                              id="real_rate">0</span>
                           </div>
-                          <!-- Server Selector (if needed) -->
+                          <!-- Server Selector -->
                           <div id="crypto-server-container" class="col-span-6 hidden">
                             <label for="crypto-network" class="text-18 text-white mb-16p">Select Network</label>
                             <select id="crypto-network" name="network" class="box-input-5 border-glass-3" required
@@ -222,20 +119,43 @@
 
                           <!-- Payment Details -->
                           <div id="payment-details" class="col-span-6 text-white">
-                            <div id="dynamic-payment-fields" class="mt-4"></div>
+                            <!-- Dynamic Payment Fields -->
+                            <div id="dynamic-payment-fields" class="mt-4">
+                              <!-- Fields will be dynamically injected -->
+                            </div>
+                            <!-- Upload Proof Field -->
+                            <div class="mt-4 col-span-6">
+                              <label for="proof" class="text-18 text-white mb-16p">Upload Proof (JPEG/PNG)</label>
+                              <input autocomplete="off" type="file" id="proof" name="proof" accept=".png, .jpg, .jpeg"
+                                class="box-input-5 border-glass-3" required />
+                              <small id="file-size-error" style="color: red; display: none;">File size must be less than
+                                5MB</small>
+                              <small id="file-type-error" style="color: red; display: none;">File type must png, jpg or
+                                jpeg </small>
+                            </div>
+
+                            <script>
+                              document.getElementById('proof').addEventListener('change', function (event) {
+                                const file = event.target.files[0];
+                                const maxSizeInBytes = 5 * 1024 * 1024;
+                                const validImageTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                                if (!validImageTypes.includes(file.type)) {
+                                  document.getElementById('file-type-error').style.display = 'block';
+                                  document.getElementById('proof').value = '';
+                                } else {
+                                  document.getElementById('file-type-error').style.display = 'none';
+                                }
+
+                                if (file && file.size >= maxSizeInBytes) {
+                                  document.getElementById('file-size-error').style.display = 'block';
+                                  event.target.value = '';
+                                } else {
+                                  document.getElementById('file-size-error').style.display = 'none';
+                                }
+                              });
+                            </script>
+
                           </div>
-                        </div>
-
-
-                        <!-- Upload Proof Field -->
-                        <div class="mt-4 col-span-6">
-                          <label for="proof" class="text-18 text-white mb-16p">Upload Proof (JPEG/PNG)</label>
-                          <input autocomplete="off" type="file" id="proof" name="proof" accept=".png, .jpg, .jpeg"
-                            class="box-input-5 border-glass-3" required />
-                          <small id="file-size-error" style="color: red; display: none;">File size must be less than
-                            5MB</small>
-                          <small id="file-type-error" style="color: red; display: none;">File type must png, jpg or
-                            jpeg </small>
                         </div>
 
                         <!-- Hidden Input to Hold Selected Payment Method -->
@@ -249,13 +169,12 @@
                         </div>
                       </form>
                     </div>
-
                     <!-- Transaction History -->
                     <h2 class="text-32 text-white mt-40p">Your Transactions</h2>
                     <ul class="text-white text-lg font-semibold mt-4">
                       <% transactions.slice(0, 5).forEach(transaction=> { %>
                         <li class="mb-4">
-                          <span class="text-xl">Amount: <%= transaction.amount %> - Status: <%= transaction.status %>
+                          <span class="text-xl">Amount: <%= transaction.amount %> - <%= transaction.status %>
                           </span>
                         </li>
                         <% }) %>
@@ -284,6 +203,7 @@
             </div>
           </section>
         </main>
+
         <<script>
           let meth = '';
           const paymentMethodFields = {
@@ -315,32 +235,6 @@
             placeholder="Enter your USDT Wallet Address" required />
           `
           };
-
-
-
-
-          function toggleCryptoOptions() {
-          const mainOptions = document.getElementById('main-options');
-          const cryptoOptions = document.getElementById('crypto-options');
-          mainOptions.classList.toggle('hidden');
-          cryptoOptions.classList.toggle('hidden');
-          }
-
-          function goBackToMainOptions() {
-          document.getElementById('real_rate').style.visibility = "hidden";
-          document.getElementById('main-options').classList.remove('hidden');
-          document.getElementById('proof').value = ""
-          document.getElementById('crypto-options').classList.add('hidden');
-          }
-
-          function goBackToPaymentSelection() {
-          document.getElementById('real_rate').style.visibility = "hidden";
-          document.getElementById('amount').value = "";
-          document.getElementById('proof').value = ""
-          document.getElementById('withdraw-form').classList.add('hidden');
-          document.getElementById('payment-method-selection').classList.remove('hidden');
-          updateMinValue();
-          }
 
           function selectPaymentMethod(method) {
           document.getElementById('payment-method-selection').classList.add('hidden');
@@ -378,188 +272,122 @@
           }
 
 
+
+          function toggleCryptoOptions() {
+          const mainOptions = document.getElementById('main-options');
+          const cryptoOptions = document.getElementById('crypto-options');
+          mainOptions.classList.toggle('hidden');
+          cryptoOptions.classList.toggle('hidden');
+          }
+
+          function goBackToMainOptions() {
+          document.getElementById('real_rate').style.visibility = "hidden";
+          document.getElementById('main-options').classList.remove('hidden');
+          document.getElementById('proof').value = ""
+          document.getElementById('crypto-options').classList.add('hidden');
+          }
+
+          function goBackToPaymentSelection() {
+            document.getElementById('real_rate').style.visibility = "hidden";
+            document.getElementById('amount').value = "";
+            document.getElementById('proof').value = ""
+            document.getElementById('withdraw-form').classList.add('hidden');
+            document.getElementById('payment-method-selection').classList.remove('hidden');
+            updateMinValue();
+          }
+
+
           function updateMinValue() {
-          const btcmax = 50000 /<%= locals.btcRate %>;
-            const usdtmax = 50000 /<%= locals.usdtRate %>;
-              const btcmin= 500 /<%= locals.btcRate %>;
-                const usdtmin = 500 /<%= locals.usdtRate %>;
-                  const amountInput = document.getElementById('amount');
-                  switch (meth) {
-                  case 'Bank':
-                  amountInput.min = 500;
-                  amountInput.max = 50000;
-                  amountInput.placeholder = "Minimum: 500 , Maximum 50000";
-                  amountInput.step = 1;
-                  break;
-                  case 'UPI':
-                  amountInput.min = 500;
-                  amountInput.max = 50000;
-                  amountInput.placeholder = "Minimum: 500, Maximum 50000";
-                  amountInput.step = 1;
-                  break;
-                  case 'BTC':
-                  amountInput.min = btcmin.toFixed(8);
-                  amountInput.max = btcmax.toFixed(8);
-                  amountInput.placeholder = `Minimum: ${btcmin.toFixed(8)}, Maximum ${btcmax.toFixed(8)}`;
-                  amountInput.step = 0.0001;
-                  break;
-                  case 'USDT':
-                  amountInput.min = usdtmin.toFixed(3);
-                  amountInput.max = usdtmax.toFixed(3);
-                  amountInput.placeholder = `Minimum: ${usdtmin.toFixed(3)}, Maximum ${usdtmax.toFixed(3)}`;
-                  amountInput.step = 0.01;
-                  break;
-                  default:
-                  amountInput.min = 1000;
-                  amountInput.max = 100000;
-                  amountInput.placeholder = `Minimum: 1000, Maximum <%=locals.btcRate%>`;
-                    amountInput.step = 1;
-                    }
-                    }
+                                      const maxbtcRate = 100000/ <%= locals.btcRate %>;
+                                      const maxusdtRate = 100000/<%= locals.usdtRate %>;     
+                                      const minbtcRate = 1000/ <%= locals.btcRate %>;
+                                      const minusdtRate = 1000/<%= locals.usdtRate %>;                                   
+                                      const amountInput = document.getElementById('amount'); 
+            switch (meth) {
+            case 'Bank':
+            amountInput.min = 1000;
+            amountInput.max = 100000;
+            amountInput.placeholder = "Minimum: 1000 , Maximum 100000";
+            amountInput.step = 1; 
+            break;
+            case 'UPI':
+            amountInput.min = 1000;
+            amountInput.max = 100000;
+            amountInput.placeholder = "Minimum: 1000, Maximum 100000";
+            amountInput.step = 1;
+            break;
+            case 'BTC':
+            amountInput.min = 0.0011165;
+            amountInput.max = 0.1116487;
+            amountInput.placeholder = `Minimum: 0.0011165, Maximum 0.1116487`;
+            amountInput.step = 0.0001;
+            break;
+            case 'USDT':
+            amountInput.min = minusdtRate.round();
+            amountInput.max = maxusdtRate;
+            amountInput.placeholder = `Minimum: 10, Maximum ${maxusdtRate.toFixed(3)}`;
+            amountInput.step = 0.01;
+            break;
+            default:
+            amountInput.min = 1000;
+            amountInput.max = 100000;
+            amountInput.placeholder = `Minimum: 1000, Maximum <%=locals.btcRate%>`;
+            amountInput.step = 1;
+            }
+            }
+          function updateRate() { 
+            const amountInput=document.getElementById('amount'); const amount=parseFloat(amountInput.value) || 0; let res=0;
+          if(meth==="BTC" && <%=locals.btcRate%>){
+            res = amount * <%= locals.btcRate %>;
+              document.getElementById('real_rate').innerHTML = `You will get : ${res.toFixed(0)} rs`;
+              document.getElementById('real_rate').style.visibility = 'visible';
+              } else if (meth == "USDT" && <%=locals.usdtRate%>){
+                res = amount * <%= locals.usdtRate %>;
+                  document.getElementById('real_rate').innerHTML = `You will get : ${res.toFixed(0)} rs`;
+                  document.getElementById('real_rate').style.visibility = 'visible';
+                  }
+                  if(amountInput.value == ''){
+                  document.getElementById('real_rate').style.visibility = 'hidden';
+                  }
+                  }
 
 
 
 
+                  </script>>
+                  <!-- main end -->
+                  <!-- footer one start -->
+                  <%- include('../partials/footer') %>;
 
-                    function updateRate() {
-                    const amountInput = document.getElementById('amount');
-                    const btcmax = 50000 /<%= locals.btcRate %>;
-                      const usdtmax = 50000 /<%= locals.usdtRate %>;
-                        const btcmin= 500 /<%= locals.btcRate %>;
-                          const usdtmin = 500 /<%= locals.usdtRate %>;
-                      console.log();
-                      
-                            if(amountInput.value < 0){
-                            amountInput.value = '';
-                            }
-                            else if(amountInput.value > 50000 && (meth=="Bank" || meth=="UPI")){
-                            amountInput.value = 50000;
-                            }
-                            else if((amountInput.value > btcmax.toFixed(8)) && meth== "BTC"){
-                            amountInput.value = btcmax;
-                            }
-                            else if(amountInput.value > usdtmax && meth== "USDT"){
-                            amountInput.value = usdtmax;
-                            }
+                    <!-- footer one end -->
 
-                            let amount = parseFloat(amountInput.value) || 0;
-                            let res = 0;
-                            if (meth === "BTC" && <%= locals.btcRate %>) {
-                              amount = amount * <%= locals.btcRate %>;
-                                }else if (meth === "USDT" && <%= locals.usdtRate %>) {
-                                  amount = amount * <%= locals.usdtRate %>;
-                                    }
-                                    // Check if the amount is valid
-                                    if (!isNaN(amount) && amount > 0) {
-                                    // Calculate platform fee (3%) and tax (12%)
-                                    const platformFee = 0.03;
-                                    const taxRate = 0.12;
-
-                                    // Deduct the platform fee and tax from the entered amount
-                                    const platformFeeAmount = amount * platformFee;
-                                    const taxAmount = amount * taxRate;
-                                    const totalDeductions = platformFeeAmount + taxAmount;
-                                    const amountAfterFees = amount - totalDeductions;
-
-                                    // Update fee details on the page
-                                    document.getElementById('platform-fee').textContent = platformFeeAmount.toFixed(2);
-                                    document.getElementById('tax').textContent = taxAmount.toFixed(2);
-                                    document.getElementById('total-deductions').textContent =
-                                    totalDeductions.toFixed(2);
-                                    document.getElementById('amount-after-fees').textContent =
-                                    amountAfterFees.toFixed(2);
-
-                                    // Show the fee details section
-                                    document.getElementById('fee-details').classList.remove('hidden');
-
-                                    // Construct the message with detailed fee structure
-                                    const message = `
-                                    Platform Fee (3%): ₹${platformFeeAmount.toFixed(2)}<br>
-                                    Tax (12%): ₹${taxAmount.toFixed(2)}<br>
-                                    Total Deductions: ₹${totalDeductions.toFixed(2)}<br>
-                                    Amount after deductions: ₹${amountAfterFees.toFixed(2)}<br>
-                                    `;
-
-                                    // Populate the pop-up with fee details
-                                    const feeDetails = `
-                                    <p><strong>Platform Fee (3%)</strong>: ₹${platformFeeAmount.toFixed(2)}</p>
-                                    <p><strong>Tax (12%)</strong>: ₹${taxAmount.toFixed(2)}</p>
-                                    <p><strong>Total Deductions</strong>: ₹${totalDeductions.toFixed(2)}</p>
-                                    <p><strong>Amount after deductions</strong>: ₹${amountAfterFees.toFixed(2)}</p>
-                                    `;
-                                    document.getElementById('feeDetails').innerHTML = feeDetails;
-
-                                    // Show the result depending on the selected method (BTC/USDT)
-                                    if (meth === "BTC" && <%= locals.btcRate %>) {
-                                      res = amountAfterFees * <%= locals.btcRate %>;
-                                        document.getElementById('pop-up-for-taxs').innerHTML = `
-                                        <p>For BTC: ${message}You will get: ₹${res.toFixed(2)} rs</p>
-                                        `;
-                                        document.getElementById('real_rate').style.visibility = 'visible';
-                                        openPopup();
-                                        } else if (meth === "USDT" && <%= locals.usdtRate %>) {
-                                          res = amountAfterFees * <%= locals.usdtRate %>;
-                                            document.getElementById('pop-up-for-taxs').innerHTML = `
-                                            <p>For USDT: ${message}You will get: ₹${res.toFixed(2)} rs</p>
-                                            `;
-                                            document.getElementById('real_rate').style.visibility = 'visible';
-                                            openPopup();
-                                            }
-
-                                            // Additional handling for Bank or UPI method (if necessary)
-                                            if (paymentMethod === "Bank" || paymentMethod === "UPI") {
-                                            const paymentMethodMessage = `Payment Method: ${paymentMethod}<br>`;
-                                            document.getElementById('real_rate').innerHTML += paymentMethodMessage;
-                                            }
-                                            } else {
-                                            // Hide the fee details when the amount is invalid
-                                            document.getElementById('fee-details').classList.add('hidden');
-                                            }
-
-                                            // Hide the rate when input is empty
-                                            if (amountInput.value === '') {
-                                            document.getElementById('real_rate').style.visibility = 'hidden';
-                                            }
-                                            }
+                    <% if (locals.showAlert) { %>
+                      <<script>
+                        window.onload = function () {
+                        const preloader = document.querySelector('.preloader');
+                        preloader.style.display = 'none';
 
 
 
+                        const Toast = Swal.mixin({
+                        toast: true,
+                        position: "top",
+                        showConfirmButton: false,
+                        timer: 5000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                        }
+                        });
+                        Toast.fire({
+                        icon: '<%= alertType %>',
+                          text: '<%= alertMessage %>',
+                            });
 
-
-                                            </script>>
-                                            <!-- main end -->
-                                            <!-- footer one start -->
-                                            <%- include('../partials/footer') %>;
-
-                                              <!-- footer one end -->
-
-                                              <% if (locals.showAlert) { %>
-                                                <<script>
-                                                  window.onload = function () {
-                                                  const preloader = document.querySelector('.preloader');
-                                                  preloader.style.display = 'none';
-
-
-
-                                                  const Toast = Swal.mixin({
-                                                  toast: true,
-                                                  position: "top",
-                                                  showConfirmButton: false,
-                                                  timer: 5000,
-                                                  timerProgressBar: true,
-                                                  didOpen: (toast) => {
-                                                  toast.onmouseenter = Swal.stopTimer;
-                                                  toast.onmouseleave = Swal.resumeTimer;
-                                                  }
-                                                  });
-                                                  Toast.fire({
-                                                  icon: '<%= alertType %>',
-                                                    text: '<%= alertMessage %>',
-                                                      });
-
-                                                      };
-                                                      </script>>
-                                                      <% } %>
+                            };
+                            </script>>
+                            <% } %>
 
 </body>
 
